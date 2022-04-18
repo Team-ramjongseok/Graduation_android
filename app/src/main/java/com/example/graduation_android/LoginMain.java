@@ -11,7 +11,10 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import okhttp3.ResponseBody;
+import com.example.graduation_android.logindata.JoinData;
+import com.example.graduation_android.logindata.LoginData;
+import com.example.graduation_android.logindata.LoginResponse;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,7 +25,7 @@ public class LoginMain extends AppCompatActivity {
     private final String URL = "http://localhost:8001"; //사용할 URL
 
     EditText inputId, inputPw;
-    Button loginBtn;
+    Button loginBtn, joinBtn;
     TextView msgFromNode;
 
     private Retrofit retrofit;
@@ -35,6 +38,7 @@ public class LoginMain extends AppCompatActivity {
         inputId = findViewById(R.id.login_id_edittxt);
         inputPw = findViewById(R.id.login_pw_edittxt);
         loginBtn = findViewById(R.id.login_button);
+        joinBtn = findViewById(R.id.join_button);
         msgFromNode = findViewById(R.id.msg_from_node);
 
         /* retrofit2 */
@@ -45,11 +49,15 @@ public class LoginMain extends AppCompatActivity {
         service = retrofit.create(LoginServiceApi.class);
 
 
+
         //로그인 버튼 클릭 시 동작
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Call<ResponseBody> call_login = service.login("");
+                String email = inputId.getText().toString();
+                String password = inputPw.getText().toString();
+
+                startLogin(new LoginData(email, password));
             }
         });
     }
@@ -58,7 +66,7 @@ public class LoginMain extends AppCompatActivity {
 
     /* 로그인 */
     private void startLogin(LoginData data) {
-        service.login(data).enqueue(new Callback<LoginResponse>() {
+        service.userLogin(data).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 LoginResponse result = response.body();

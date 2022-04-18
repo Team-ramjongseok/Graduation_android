@@ -1,8 +1,9 @@
 package com.example.graduation_android;
 
-import android.graphics.Paint;
-
-import com.google.gson.annotations.SerializedName;
+import com.example.graduation_android.logindata.JoinData;
+import com.example.graduation_android.logindata.JoinResponse;
+import com.example.graduation_android.logindata.LoginData;
+import com.example.graduation_android.logindata.LoginResponse;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -22,11 +23,11 @@ public interface LoginServiceApi {
 
     @FormUrlEncoded
     @POST("/user/join")
-    Call<JoinResponse> login(@Body JoinData data); //신규 회원가입 시에 서버에 보낼 이메일과 비밀번호 정보
+    Call<JoinResponse> userJoin(@Body JoinData data); //신규 회원가입 시에 서버에 보낼 이메일과 비밀번호 정보
 
     @FormUrlEncoded
     @POST("/user/login")
-    Call<LoginResponse> login(@Body LoginData data); //로그인 시에 서버에 보낼 이메일과 비밀번호 정보
+    Call<LoginResponse> userLogin(@Body LoginData data); //로그인 시에 서버에 보낼 이메일과 비밀번호 정보
 
     @FormUrlEncoded
     @PUT("/{id}")

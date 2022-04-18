@@ -1,4 +1,4 @@
-package com.example.graduation_android;
+package com.example.graduation_android.logindata;
 
 import com.google.gson.annotations.SerializedName;
 
