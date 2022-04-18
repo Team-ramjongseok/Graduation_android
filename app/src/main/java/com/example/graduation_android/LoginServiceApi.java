@@ -21,11 +21,9 @@ public interface LoginServiceApi {
     @GET("/")
     Call<ResponseBody> getFunc(@Query("data") String data); //get은 쿼리 형태로 보낸다
 
-    @FormUrlEncoded
     @POST("/user/join")
     Call<JoinResponse> userJoin(@Body JoinData data); //신규 회원가입 시에 서버에 보낼 이메일과 비밀번호 정보
 
-    @FormUrlEncoded
     @POST("/user/login")
     Call<LoginResponse> userLogin(@Body LoginData data); //로그인 시에 서버에 보낼 이메일과 비밀번호 정보
 

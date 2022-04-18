@@ -22,7 +22,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginMain extends AppCompatActivity {
-    private final String URL = "http://localhost:8001"; //사용할 URL
+    private final String URL = "http://localhost:8001/"; //사용할 URL
 
     EditText inputId, inputPw;
     Button loginBtn, joinBtn;
