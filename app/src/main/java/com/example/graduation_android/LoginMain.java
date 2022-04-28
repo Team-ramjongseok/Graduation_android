@@ -1,5 +1,6 @@
 package com.example.graduation_android;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,11 +23,13 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginMain extends AppCompatActivity {
-    private final String URL = "http://localhost:8001/"; //사용할 URL
+    private final String URL = "http://10.0.2.2:8001"; //localhost로 접속
+    private final String TAG = "LoginMain";
 
     EditText inputId, inputPw;
     Button loginBtn, joinBtn;
     TextView msgFromNode;
+    TextView txtId;
 
     private Retrofit retrofit;
     private LoginServiceApi service;
@@ -40,6 +43,7 @@ public class LoginMain extends AppCompatActivity {
         loginBtn = findViewById(R.id.login_button);
         joinBtn = findViewById(R.id.join_button);
         msgFromNode = findViewById(R.id.msg_from_node);
+        txtId = findViewById(R.id.login_id_txt);
 
         /* retrofit2 */
         retrofit = new Retrofit.Builder()
@@ -47,8 +51,6 @@ public class LoginMain extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create()) //json 분석하기 위해 추가
                 .build();
         service = retrofit.create(LoginServiceApi.class);
-
-
 
         //로그인 버튼 클릭 시 동작
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -71,13 +73,19 @@ public class LoginMain extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 LoginResponse result = response.body();
                 Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                if(result.getMessage().equals("login success")) {
+                    txtId.setTextColor(Color.BLUE);
+                }
+                else {
+                    txtId.setTextColor(Color.RED);
+                }
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                Toast.makeText(LoginMain.this, "로그인 에러", Toast.LENGTH_SHORT).show();
-                Log.e("로그인 에러 발생", t.getMessage());
-                t.printStackTrace(); //에러 원인 찾기
+                Toast.makeText(LoginMain.this, "접속 에러", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "접속 에러 발생");
+                t.printStackTrace();
             }
         });
     }

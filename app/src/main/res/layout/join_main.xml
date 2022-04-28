@@ -2,26 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/login_main">
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="로그인"
+        android:text="회원가입"
         android:textSize="30dp"
         android:gravity="center"
         android:layout_marginTop="30dp" />
 
     <LinearLayout
-        android:id="@+id/login_id_input"
+        android:id="@+id/join_id_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="30dp">
 
         <TextView
-            android:id="@+id/login_id_txt"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="ID: "
@@ -30,7 +28,7 @@
             android:gravity="center"/>
 
         <EditText
-            android:id="@+id/login_id_edittxt"
+            android:id="@+id/join_id_edittxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint=" 아이디 입력" />
@@ -38,14 +36,36 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/login_pw_input"
+        android:id="@+id/join_nick_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="10dp">
 
         <TextView
-            android:id="@+id/login_pw_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="nick: "
+            android:textSize="20dp"
+            android:layout_marginLeft="40dp"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/join_nick_edittxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=" 비번 입력" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/join_pw_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="PW: "
@@ -54,41 +74,19 @@
             android:gravity="center"/>
 
         <EditText
-            android:id="@+id/login_pw_edittxt"
+            android:id="@+id/join_pw_edittxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint=" 비번 입력" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="로그인"
-        android:layout_marginHorizontal="100dp"/>
 
     <Button
-        android:id="@+id/join_button"
+        android:id="@+id/join_main_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="회원 가입"
-        android:layout_marginHorizontal="100dp"
-        android:enabled="false"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@color/black"
-        android:layout_marginTop="10dp"/>
-
-    
-    <TextView
-        android:id="@+id/msg_from_node"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="노드에서 받은 내용"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp" />
+        android:layout_marginHorizontal="100dp" />
 
 </LinearLayout>
