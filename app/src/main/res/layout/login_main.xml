@@ -74,8 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="회원 가입"
-        android:layout_marginHorizontal="100dp"
-        android:enabled="false"/>
+        android:layout_marginHorizontal="100dp" />
 
     <View
         android:layout_width="match_parent"

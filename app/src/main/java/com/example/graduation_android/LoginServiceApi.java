@@ -18,13 +18,13 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface LoginServiceApi {
-    @GET("/")
+    @GET("/retrofit/get")
     Call<ResponseBody> getFunc(@Query("data") String data); //get은 쿼리 형태로 보낸다
 
-    @POST("/user/join")
+    @POST("/auth/join")
     Call<JoinResponse> userJoin(@Body JoinData data); //신규 회원가입 시에 서버에 보낼 이메일과 비밀번호 정보
 
-    @POST("/user/login")
+    @POST("/auth/login")
     Call<LoginResponse> userLogin(@Body LoginData data); //로그인 시에 서버에 보낼 이메일과 비밀번호 정보
 
     @FormUrlEncoded

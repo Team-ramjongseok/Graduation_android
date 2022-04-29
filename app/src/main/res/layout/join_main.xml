@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/join_main_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="회원가입"
+        android:textSize="30dp"
+        android:gravity="center"
+        android:layout_marginTop="30dp" />
+
+    <LinearLayout
+        android:id="@+id/join_id_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:id="@+id/join_id_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="ID: "
+            android:textSize="25dp"
+            android:layout_marginLeft="50dp"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/join_id_edittxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=" 아이디 입력" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/join_nick_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/join_nick_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="NICK: "
+            android:textSize="20dp"
+            android:layout_marginLeft="30dp"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/join_nick_edittxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=" 닉네임 입력" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/join_pw_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/join_pw_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="PW: "
+            android:textSize="20dp"
+            android:layout_marginLeft="45dp"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/join_pw_edittxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=" 비번 입력" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/join_phone_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/join_phone_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="phone: "
+            android:textSize="20dp"
+            android:layout_marginLeft="25dp"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/join_phone_edittxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=" 비번 입력" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/join_main_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="회원 가입하기"
+        android:layout_marginHorizontal="100dp"
+        android:layout_marginTop="10dp"/>
+
+</LinearLayout>

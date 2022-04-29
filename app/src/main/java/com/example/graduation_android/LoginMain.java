@@ -1,5 +1,6 @@
 package com.example.graduation_android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,9 @@ import com.example.graduation_android.logindata.JoinData;
 import com.example.graduation_android.logindata.LoginData;
 import com.example.graduation_android.logindata.LoginResponse;
 
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,7 +26,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginMain extends AppCompatActivity {
-    private final String URL = "http://localhost:8001/"; //사용할 URL
+    private final String URL = "http://10.0.2.2:8001"; //사용할 URL (localhost)
+    private final String TAG = "LoginMain";
 
     EditText inputId, inputPw;
     Button loginBtn, joinBtn;
@@ -49,6 +54,15 @@ public class LoginMain extends AppCompatActivity {
         service = retrofit.create(LoginServiceApi.class);
 
 
+        //회원가입 버튼 클릭 시 동작
+        joinBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), JoinMain.class);
+                startActivity(intent);
+            }
+        });
+
 
         //로그인 버튼 클릭 시 동작
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +74,42 @@ public class LoginMain extends AppCompatActivity {
                 startLogin(new LoginData(email, password));
             }
         });
+
+
+        /* retrofit test */
+        /*
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<ResponseBody> call_get = service.getFunc("get data");
+                call_get.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if(response.isSuccessful()) {
+                            try {
+                                String result = response.body().string();
+                                Log.v(TAG, "result= " + result);
+                                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else {
+                            Log.v(TAG, "err= " + String.valueOf(response.code()));
+                            Toast.makeText(getApplicationContext(), "err= " + String.valueOf(response.code()), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.v(TAG, "fail");
+                        Toast.makeText(getApplicationContext(), "response fail", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+         */
     }
 
 
@@ -69,15 +119,21 @@ public class LoginMain extends AppCompatActivity {
         service.userLogin(data).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                LoginResponse result = response.body();
-                Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                if(response.isSuccessful()) {
+                    LoginResponse result = response.body();
+                    Log.v(TAG, "result= " + result.getMessage());
+                    Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Log.v(TAG, "err= " + String.valueOf(response.code()));
+                    Toast.makeText(getApplicationContext(), "response error", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                Toast.makeText(LoginMain.this, "로그인 에러", Toast.LENGTH_SHORT).show();
-                Log.e("로그인 에러 발생", t.getMessage());
-                t.printStackTrace(); //에러 원인 찾기
+                Log.v(TAG, "response fail");
+                Toast.makeText(getApplicationContext(), "response fail", Toast.LENGTH_SHORT).show();
             }
         });
     }
