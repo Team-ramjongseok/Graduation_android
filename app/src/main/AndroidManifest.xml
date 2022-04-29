@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginMain"/>
+        <activity android:name=".JoinMain" />
     </application>
 
 </manifest>
