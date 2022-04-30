@@ -5,10 +5,7 @@
     android:orientation="vertical">
 
     <TextView
-<<<<<<< HEAD
         android:id="@+id/join_main_txt"
-=======
->>>>>>> eb84c441a00721d58a9fac9632f8f70e8be6ea5c
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="회원가입"
@@ -24,10 +21,7 @@
         android:layout_marginTop="30dp">
 
         <TextView
-<<<<<<< HEAD
             android:id="@+id/join_id_txt"
-=======
->>>>>>> eb84c441a00721d58a9fac9632f8f70e8be6ea5c
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="ID: "
@@ -51,32 +45,19 @@
         android:layout_marginTop="10dp">
 
         <TextView
-<<<<<<< HEAD
             android:id="@+id/join_nick_txt"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="NICK: "
             android:textSize="20dp"
             android:layout_marginLeft="30dp"
-=======
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="nick: "
-            android:textSize="20dp"
-            android:layout_marginLeft="40dp"
->>>>>>> eb84c441a00721d58a9fac9632f8f70e8be6ea5c
             android:gravity="center"/>
 
         <EditText
             android:id="@+id/join_nick_edittxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-<<<<<<< HEAD
             android:hint=" 닉네임 입력" />
-=======
-            android:hint=" 비번 입력" />
->>>>>>> eb84c441a00721d58a9fac9632f8f70e8be6ea5c
-
     </LinearLayout>
 
     <LinearLayout
@@ -87,10 +68,7 @@
         android:layout_marginTop="10dp">
 
         <TextView
-<<<<<<< HEAD
             android:id="@+id/join_pw_txt"
-=======
->>>>>>> eb84c441a00721d58a9fac9632f8f70e8be6ea5c
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="PW: "
@@ -103,10 +81,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint=" 비번 입력" />
-
+      
     </LinearLayout>
 
-<<<<<<< HEAD
     <LinearLayout
         android:id="@+id/join_phone_input"
         android:layout_width="match_parent"
@@ -130,20 +107,13 @@
             android:hint=" 비번 입력" />
 
     </LinearLayout>
-=======
->>>>>>> eb84c441a00721d58a9fac9632f8f70e8be6ea5c
 
     <Button
         android:id="@+id/join_main_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
         android:text="회원 가입하기"
         android:layout_marginHorizontal="100dp"
         android:layout_marginTop="10dp"/>
-=======
-        android:text="회원 가입"
-        android:layout_marginHorizontal="100dp" />
->>>>>>> eb84c441a00721d58a9fac9632f8f70e8be6ea5c
 
 </LinearLayout>

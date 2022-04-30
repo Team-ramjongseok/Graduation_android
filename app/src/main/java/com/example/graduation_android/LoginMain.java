@@ -1,6 +1,5 @@
 package com.example.graduation_android;
 
-<<<<<<< HEAD
 import android.content.Intent;
 
 import android.graphics.Color;
@@ -17,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.graduation_android.logindata.JoinData;
+import com.example.graduation_android.logindata.JoinResponse;
 import com.example.graduation_android.logindata.LoginData;
 import com.example.graduation_android.logindata.LoginResponse;
 
@@ -126,39 +126,30 @@ public class LoginMain extends AppCompatActivity {
         service.userLogin(data).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-<<<<<<< HEAD
                 if(response.isSuccessful()) {
                     LoginResponse result = response.body();
                     Log.v(TAG, "result= " + result.getMessage());
                     Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    if(result.getMessage().equals("login success")) {
+                        txtId.setTextColor(Color.BLUE);
+                    }
+                    else {
+                        txtId.setTextColor(Color.RED);
+                    }
                 }
                 else {
                     Log.v(TAG, "err= " + String.valueOf(response.code()));
                     Toast.makeText(getApplicationContext(), "response error", Toast.LENGTH_SHORT).show();
-=======
-                LoginResponse result = response.body();
-                Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
-                if(result.getMessage().equals("login success")) {
-                    txtId.setTextColor(Color.BLUE);
-                }
-                else {
-                    txtId.setTextColor(Color.RED);
->>>>>>> eb84c441a00721d58a9fac9632f8f70e8be6ea5c
                 }
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-<<<<<<< HEAD
-                Log.v(TAG, "response fail");
-                Toast.makeText(getApplicationContext(), "response fail", Toast.LENGTH_SHORT).show();
-=======
                 Toast.makeText(LoginMain.this, "접속 에러", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "접속 에러 발생");
                 t.printStackTrace();
->>>>>>> eb84c441a00721d58a9fac9632f8f70e8be6ea5c
             }
         });
     }
-
 }
