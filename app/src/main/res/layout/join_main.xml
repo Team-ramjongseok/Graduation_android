@@ -81,8 +81,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint=" 비번 입력" />
+      
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/join_phone_input"
@@ -105,6 +105,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint=" 비번 입력" />
+
     </LinearLayout>
 
     <Button
@@ -114,4 +115,5 @@
         android:text="회원 가입하기"
         android:layout_marginHorizontal="100dp"
         android:layout_marginTop="10dp"/>
+
 </LinearLayout>
