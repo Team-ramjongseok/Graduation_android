@@ -27,6 +27,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LocationMain.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 }
