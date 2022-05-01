@@ -16,9 +16,6 @@ import androidx.appcompat.app.AlertDialog;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import android.widget.Toast;
-
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.graduation_android.logindata.JoinData;
@@ -35,6 +32,7 @@ public class JoinMain extends AppCompatActivity {
     private final String TAG = "JoinMain";
 
     EditText inputId, inputNick, inputPw, inputPhone;
+
     Button joinBtn;
 
     private Retrofit retrofit;
@@ -50,8 +48,6 @@ public class JoinMain extends AppCompatActivity {
         inputPhone = findViewById(R.id.join_phone_edittxt);
         joinBtn = findViewById(R.id.join_main_button);
 
-        inputPhone = findViewById(R.id.join_phone_edittxt);
-        joinBtn = findViewById(R.id.join_main_button);
 
         /* retrofit2 */
         retrofit = new Retrofit.Builder()
@@ -59,7 +55,6 @@ public class JoinMain extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create()) //json 분석하기 위해 추가
                 .build();
         service = retrofit.create(LoginServiceApi.class);
-
 
         //회원가입 버튼 클릭 시 동작
         joinBtn.setOnClickListener(new View.OnClickListener() {
@@ -76,8 +71,8 @@ public class JoinMain extends AppCompatActivity {
         });
     }
 
-  
-  
+
+
     /* 회원가입 */
     private void startJoin(JoinData data) {
         service.userJoin(data).enqueue(new Callback<JoinResponse>() {
@@ -101,18 +96,15 @@ public class JoinMain extends AppCompatActivity {
                     if (result.getMessage().equals("join success")) {
                         joinBtn.setBackgroundColor(Color.BLUE);
                     }
-
-                JoinResponse result = response.body();
-                Toast.makeText(JoinMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<JoinResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "접속 에러", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "접속 에러 발생");
-                t.printStackTrace();
+                Toast.makeText(JoinMain.this, "회원가입 에러", Toast.LENGTH_SHORT).show();
+                Log.e("회원가입 에러 발생", t.getMessage());
             }
         });
     }
-    
+
 }
