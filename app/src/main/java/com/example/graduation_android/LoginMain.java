@@ -132,9 +132,11 @@ public class LoginMain extends AppCompatActivity {
                     Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
 
                     if(result.getMessage().equals("login success")) {
+                        Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                         txtId.setTextColor(Color.BLUE);
                     }
                     else {
+                        Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                         txtId.setTextColor(Color.RED);
                     }
                 }
