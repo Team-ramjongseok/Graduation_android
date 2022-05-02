@@ -65,7 +65,6 @@ public class JoinMain extends AppCompatActivity {
                 String password = inputPw.getText().toString();
                 String phone = inputPhone.getText().toString();
 
-
                 startJoin(new JoinData(email, nick, password, phone));
             }
         });
