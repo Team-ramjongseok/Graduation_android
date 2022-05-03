@@ -11,6 +11,5 @@ import java.util.List;
 
 public interface LocationServiceApi {
     @POST("/main/gps")
-//    Call<LocationResponse> userLocation(@Body LocationData data); //위도 경도 주고받기 -> 여러개니까 list로
     Call<List<LocationResponse>> userLocation(@Body LocationData data); //위도 경도 주고받기 -> 여러개니까 list로
 }
