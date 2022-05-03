@@ -23,6 +23,7 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
+import okhttp3.Interceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,7 +31,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LocationMain extends AppCompatActivity {
-    private final String URL = "http://10.0.2.2:8001"; //사용할 URL (localhost)
+    private final String URL = "http://10.0.2.2:8001/"; //사용할 URL (localhost)
     private final String TAG = "LocationMain";
 
     TextView userLat, userLng;
@@ -98,7 +99,6 @@ public class LocationMain extends AppCompatActivity {
                 userLng.setText(String.valueOf(currentLng));
 
                 sendLocation(new LocationData(currentLat, currentLng));
-                //sendLocation(new LocationData(currentLat, currentLng));
             }
         });
     }
@@ -116,16 +116,6 @@ public class LocationMain extends AppCompatActivity {
 
                     getLats[i].setText(String.valueOf(result.get(i).getLatitude()));
                     getLngs[i].setText(String.valueOf(result.get(i).getLongitude()));
-                    /*
-                    double getLat = result.get(i).getLatitude();
-                    double getLng = result.get(i).getLongitude();
-                    Log.e(TAG, String.valueOf(getLat));
-                    Log.e(TAG, String.valueOf(getLng));
-
-                    getLats[i].setText(String.valueOf(getLat));
-                    getLngs[i].setText(String.valueOf(getLng));
-
-                     */
                 }
             }
 

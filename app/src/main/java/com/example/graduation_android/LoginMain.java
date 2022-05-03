@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,9 +20,11 @@ import com.example.graduation_android.logindata.JoinData;
 import com.example.graduation_android.logindata.JoinResponse;
 import com.example.graduation_android.logindata.LoginData;
 import com.example.graduation_android.logindata.LoginResponse;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
 
+import okhttp3.Interceptor;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +33,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginMain extends AppCompatActivity {
-    private final String URL = "http://10.0.2.2:8001"; //사용할 URL (localhost)
+    private final String URL = "http://10.0.2.2:8001/"; //사용할 URL (localhost)
 
     private final String TAG = "LoginMain";
 
@@ -41,6 +44,7 @@ public class LoginMain extends AppCompatActivity {
 
     private Retrofit retrofit;
     private LoginServiceApi service;
+    private Interceptor interceptor;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +63,14 @@ public class LoginMain extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create()) //json 분석하기 위해 추가
                 .build();
         service = retrofit.create(LoginServiceApi.class);
+
+//        interceptor = new Interceptor() {
+//            @NonNull
+//            @Override
+//            public okhttp3.Response intercept(@NonNull Chain chain) throws IOException {
+//                String token =
+//            }
+//        }
 
 
         //회원가입 버튼 클릭 시 동작
@@ -153,5 +165,29 @@ public class LoginMain extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
+    }
+
+    public class User {
+        @SerializedName("email")
+        private String email;
+
+        @SerializedName("password")
+        private String password;
+
+        @SerializedName("phone")
+        private String phone;
+
+        @SerializedName("nickname")
+        private String nickname;
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+
     }
 }
