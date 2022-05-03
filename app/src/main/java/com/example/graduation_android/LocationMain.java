@@ -116,9 +116,6 @@ public class LocationMain extends AppCompatActivity {
                     Log.e(TAG, String.valueOf(result.get(i).getCafe()));
 
 
-
-
-
                     getLats[i].setText(String.valueOf(result.get(i).getLatitude()));
                     getLngs[i].setText(String.valueOf(result.get(i).getLongitude()));
 
