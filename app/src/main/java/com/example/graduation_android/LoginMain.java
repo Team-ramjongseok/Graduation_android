@@ -142,6 +142,7 @@ public class LoginMain extends AppCompatActivity {
                     LoginResponse result = response.body();
                     Log.v(TAG, "result= " + result.getMessage());
                     Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+
                     if(result.getMessage().equals("login success")) {
                         Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                         txtId.setTextColor(Color.BLUE);
@@ -155,7 +156,6 @@ public class LoginMain extends AppCompatActivity {
                     Log.v(TAG, "err= " + String.valueOf(response.code()));
                     Toast.makeText(getApplicationContext(), "response error", Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override

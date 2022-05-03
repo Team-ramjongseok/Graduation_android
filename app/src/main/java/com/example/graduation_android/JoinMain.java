@@ -70,8 +70,8 @@ public class JoinMain extends AppCompatActivity {
         });
     }
 
-    
-    
+
+
     /* 회원가입 */
     private void startJoin(JoinData data) {
         service.userJoin(data).enqueue(new Callback<JoinResponse>() {
