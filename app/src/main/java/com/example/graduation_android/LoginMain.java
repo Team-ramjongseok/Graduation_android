@@ -5,15 +5,20 @@ import android.content.Intent;
 import android.graphics.Color;
 
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.graduation_android.logindata.JoinData;
@@ -38,9 +43,9 @@ public class LoginMain extends AppCompatActivity {
     private final String TAG = "LoginMain";
 
     EditText inputId, inputPw;
-    Button loginBtn, joinBtn;
-    TextView msgFromNode;
-    TextView txtId;
+    Button loginBtn;
+    TextView txtId, joinBtn;
+    ImageView goBack;
 
     private Retrofit retrofit;
     private LoginServiceApi service;
@@ -50,12 +55,20 @@ public class LoginMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_main);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
         inputId = findViewById(R.id.login_id_edittxt);
         inputPw = findViewById(R.id.login_pw_edittxt);
         loginBtn = findViewById(R.id.login_button);
         joinBtn = findViewById(R.id.join_button);
-        msgFromNode = findViewById(R.id.msg_from_node);
         txtId = findViewById(R.id.login_id_txt);
+        goBack = findViewById(R.id.go_back_login);
+
+        //sign up 글씨에 밑줄 긋기
+        SpannableString underlineTxt = new SpannableString(joinBtn.getText().toString());
+        underlineTxt.setSpan(new UnderlineSpan(), 0, underlineTxt.length(), 0);
+        joinBtn.setText(underlineTxt);
 
         /* retrofit2 */
         retrofit = new Retrofit.Builder()
@@ -91,6 +104,15 @@ public class LoginMain extends AppCompatActivity {
                 String password = inputPw.getText().toString();
 
                 startLogin(new LoginData(email, password));
+            }
+        });
+        
+        //뒤로가기 버튼 클릭 시 동작
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
 
