@@ -15,12 +15,12 @@ public class LocationResponse {
     private ArrayList<Double> longitude = new ArrayList<>();
 
     @SerializedName("distanceResult")
-    private Object distanceResult = new ArrayList<>();
+    private ArrayList<Cafe> distanceResult = new ArrayList<>();
 
     public ArrayList getLatitude() { return latitude; }
 
     public ArrayList getLongitude() { return longitude; }
-    public Object getCafe() {return distanceResult;}
+    public ArrayList getCafe() {return distanceResult;}
 }
 
 class Cafe {

@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+
 import com.example.graduation_android.locationdata.LocationData;
 import com.example.graduation_android.locationdata.LocationResponse;
 import com.google.gson.Gson;
@@ -26,6 +27,8 @@ import com.google.gson.JsonParser;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -144,24 +147,29 @@ public class LocationMain extends AppCompatActivity {
             public void onResponse(Call<Object> call, Response<Object> response) {
                 Object result = response.body();
 
-                //바디 전체를 받을 때는 이렇게
-                Log.e(TAG, "received: "+new Gson().toJson(result));
 
                 //따로따로 받을 때는 이렇게
                 JsonParser jsonParser = new JsonParser();
                 JsonArray jsonArray = (JsonArray) jsonParser.parse(new Gson().toJson(result));
-                for(int i=0; i<jsonArray.size(); i++) {
-                    JsonObject jsonObject = (JsonObject) jsonArray.get(i);
-                    String get_info = jsonObject.get("cafe_info").getAsString();
-                    String get_location = jsonObject.get("location").getAsString();
-                    Double get_lat = jsonObject.get("latitude").getAsDouble();
-                    Double get_lng = jsonObject.get("longitude").getAsDouble();
+                JsonObject jsonObject = (JsonObject) jsonArray.get(0);
+                Object test  = jsonObject.get("distanceResult");
+                Object cafe_info  = jsonObject.get("cafe_info");
 
-                    Log.e(TAG, "cafe_info: "+get_info);
-                    Log.e(TAG, "location: "+get_location);
-                    Log.e(TAG, "latitude : "+get_lat);
-                    Log.e(TAG, "longitude : "+get_lng);
-                }
+                Log.e(TAG, "received: "+cafe_info);
+
+
+//                for(int i=0; i<jsonArray.size(); i++) {
+//                    JsonObject jsonObject = (JsonObject) jsonArray.get(i);
+//                    String get_info = jsonObject.get("cafe_info").getAsString();
+//                    String get_location = jsonObject.get("location").getAsString();
+//                    Double get_lat = jsonObject.get("latitude").getAsDouble();
+//                    Double get_lng = jsonObject.get("longitude").getAsDouble();
+//
+//                    Log.e(TAG, "cafe_info: "+get_info);
+//                    Log.e(TAG, "location: "+get_location);
+//                    Log.e(TAG, "latitude : "+get_lat);
+//                    Log.e(TAG, "longitude : "+get_lng);
+//                }
 
 
             }
