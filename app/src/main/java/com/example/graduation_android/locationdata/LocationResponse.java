@@ -3,6 +3,7 @@ package com.example.graduation_android.locationdata;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /* 서버에서 받을 위도, 경도들 */
 public class LocationResponse {
@@ -30,4 +31,6 @@ class Cafe {
     public Double latitude;
     public Double longitude;
     public Double distance;
+
+
 }
