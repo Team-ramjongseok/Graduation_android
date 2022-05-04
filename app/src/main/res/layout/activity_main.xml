@@ -32,16 +32,58 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="7dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="내 주변 빈자리"
+            android:textColor="@color/black"
+            android:textSize="23dp"
+            android:gravity="center"
+            android:layout_marginLeft="10dp" />
+
+
+        <LinearLayout
+            android:id="@+id/goto_location"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:src="@drawable/location_pin"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="위치 확인"
+                android:textColor="@color/black"
+                android:textSize="17dp"
+                android:gravity="center"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="10dp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginTop="10dp"/>
 
 
 
 
-    <Button
-        android:id="@+id/goto_location"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:text="위치 조회"/>
+
 
 </LinearLayout>

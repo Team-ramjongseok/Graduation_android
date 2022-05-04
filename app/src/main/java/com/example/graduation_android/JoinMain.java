@@ -1,18 +1,22 @@
 package com.example.graduation_android;
 
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.ActionBar;
+
+
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -32,8 +36,8 @@ public class JoinMain extends AppCompatActivity {
     private final String TAG = "JoinMain";
 
     EditText inputId, inputNick, inputPw, inputPhone;
-
     Button joinBtn;
+    ImageView goBack;
 
     private Retrofit retrofit;
     private LoginServiceApi service;
@@ -42,11 +46,15 @@ public class JoinMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.join_main);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
         inputId = findViewById(R.id.join_id_edittxt);
         inputNick = findViewById(R.id.join_nick_edittxt);
         inputPw = findViewById(R.id.join_pw_edittxt);
         inputPhone = findViewById(R.id.join_phone_edittxt);
         joinBtn = findViewById(R.id.join_main_button);
+        goBack = findViewById(R.id.go_back_join);
 
 
         /* retrofit2 */
@@ -55,6 +63,15 @@ public class JoinMain extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create()) //json 분석하기 위해 추가
                 .build();
         service = retrofit.create(LoginServiceApi.class);
+
+
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LoginMain.class);
+                startActivity(intent);
+            }
+        });
 
         //회원가입 버튼 클릭 시 동작
         joinBtn.setOnClickListener(new View.OnClickListener() {
@@ -85,17 +102,22 @@ public class JoinMain extends AppCompatActivity {
 
                     }
                 });
+
+
                 if(response.isSuccessful()) {
                     JoinResponse result = response.body();
-                    Toast.makeText(JoinMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
 
                     if (result.getMessage().equals("already exist")) {
                         builder.show();
                     }
-                    if (result.getMessage().equals("join success")) {
-                        joinBtn.setBackgroundColor(Color.BLUE);
+                    else if (result.getMessage().equals("join success")) {
+                        Toast.makeText(JoinMain.this, "로그인 성공, 다시 로그인 해주세요.", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
                     }
                 }
+
             }
 
             @Override

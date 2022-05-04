@@ -18,7 +18,12 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.graduation_android.locationdata.LocationData;
 import com.example.graduation_android.locationdata.LocationResponse;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.List;
@@ -104,32 +109,67 @@ public class LocationMain extends AppCompatActivity {
     }
 
     /* 내 위치 서버에 전송 및 서버에서 위치 받기 */
+//    private void sendLocation(LocationData data) {
+//        service.userLocation(data).enqueue(new Callback<List<LocationResponse>>() {
+//            @Override
+//            public void onResponse(Call<List<LocationResponse>> call, Response<List<LocationResponse>> response) {
+//                List<LocationResponse> result = response.body(); //받아온 데이터들
+//
+//                for(int i=0; i<result.size(); i++) {
+//                    Log.e(TAG, String.valueOf(result.get(i).getLatitude()));
+//                    Log.e(TAG, String.valueOf(result.get(i).getLongitude()));
+//                    Log.e(TAG, String.valueOf(result.get(i).getCafe()));
+//
+//
+//
+//                    getLats[i].setText(String.valueOf(result.get(i).getLatitude()));
+//                    getLngs[i].setText(String.valueOf(result.get(i).getLongitude()));
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<LocationResponse>> call, Throwable t) {
+//                Toast.makeText(LocationMain.this, "error while getting location", Toast.LENGTH_SHORT).show();
+//                Log.e(TAG, "위치 가져오기 에러");
+//            }
+//        });
+//
+//    }
+
     private void sendLocation(LocationData data) {
-        service.userLocation(data).enqueue(new Callback<List<LocationResponse>>() {
+        service.userLocation(data).enqueue(new Callback<Object>() {
             @Override
-            public void onResponse(Call<List<LocationResponse>> call, Response<List<LocationResponse>> response) {
-                List<LocationResponse> result = response.body(); //받아온 데이터들
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                Object result = response.body();
 
-                for(int i=0; i<result.size(); i++) {
-                    Log.e(TAG, String.valueOf(result.get(i).getLatitude()));
-                    Log.e(TAG, String.valueOf(result.get(i).getLongitude()));
-                    Log.e(TAG, String.valueOf(result.get(i).getCafe()));
+                //바디 전체를 받을 때는 이렇게
+                Log.e(TAG, "received: "+new Gson().toJson(result));
 
+                //따로따로 받을 때는 이렇게
+                JsonParser jsonParser = new JsonParser();
+                JsonArray jsonArray = (JsonArray) jsonParser.parse(new Gson().toJson(result));
+                for(int i=0; i<jsonArray.size(); i++) {
+                    JsonObject jsonObject = (JsonObject) jsonArray.get(i);
+                    String get_info = jsonObject.get("cafe_info").getAsString();
+                    String get_location = jsonObject.get("location").getAsString();
+                    Double get_lat = jsonObject.get("latitude").getAsDouble();
+                    Double get_lng = jsonObject.get("longitude").getAsDouble();
 
-
-                    getLats[i].setText(String.valueOf(result.get(i).getLatitude()));
-                    getLngs[i].setText(String.valueOf(result.get(i).getLongitude()));
-
+                    Log.e(TAG, "cafe_info: "+get_info);
+                    Log.e(TAG, "location: "+get_location);
+                    Log.e(TAG, "latitude : "+get_lat);
+                    Log.e(TAG, "longitude : "+get_lng);
                 }
+
+
             }
 
             @Override
-            public void onFailure(Call<List<LocationResponse>> call, Throwable t) {
-                Toast.makeText(LocationMain.this, "error while getting location", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "위치 가져오기 에러");
+            public void onFailure(Call<Object> call, Throwable t) {
+                Log.e(TAG, "connection error");
             }
         });
-
     }
 
 }
