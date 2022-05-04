@@ -5,13 +5,28 @@
     android:orientation="vertical"
     android:id="@+id/login_main">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <ImageView
+            android:id="@+id/go_back_login"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/back_arrow"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp" />
+    </LinearLayout>
+
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="로그인"
-        android:textSize="30dp"
+        android:textColor="@color/black"
+        android:textSize="35dp"
         android:gravity="center"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="50dp" />
 
     <LinearLayout
         android:id="@+id/login_id_input"
@@ -24,16 +39,18 @@
             android:id="@+id/login_id_txt"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="ID: "
-            android:textSize="25dp"
-            android:layout_marginLeft="50dp"
+            android:text="Email "
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:layout_marginLeft="40dp"
             android:gravity="center"/>
 
         <EditText
             android:id="@+id/login_id_edittxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint=" 아이디 입력" />
+            android:hint=" sample@gmail.com"
+            android:layout_marginRight="80dp"/>
 
     </LinearLayout>
 
@@ -48,46 +65,103 @@
             android:id="@+id/login_pw_txt"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="PW: "
-            android:textSize="20dp"
-            android:layout_marginLeft="45dp"
+            android:text="PW "
+            android:textColor="@color/black"
+            android:textSize="17dp"
+            android:layout_marginLeft="60dp"
             android:gravity="center"/>
 
         <EditText
             android:id="@+id/login_pw_edittxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="80dp"
             android:hint=" 비번 입력" />
 
     </LinearLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/login_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
         android:text="로그인"
-        android:layout_marginHorizontal="100dp"/>
-
-    <Button
-        android:id="@+id/join_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="회원 가입"
-        android:layout_marginHorizontal="100dp" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@color/black"
-        android:layout_marginTop="10dp"/>
-
-    
-    <TextView
-        android:id="@+id/msg_from_node"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="노드에서 받은 내용"
+        android:layout_gravity="right"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp" />
+        android:layout_marginRight="80dp"
+        android:background="@drawable/login_button"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login with.."
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="50dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="13dp"
+        android:layout_marginHorizontal="70dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/login_kakao"
+            android:layout_weight="1" />
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/login_google"
+            android:layout_weight="1" />
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/login_naver"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trouble with login?"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="50dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="13dp"
+        android:layout_marginHorizontal="60dp">
+
+        <TextView
+            android:id="@+id/join_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign up"
+            android:textColor="@color/black"
+            android:textSize="25dp"
+            android:layout_weight="1"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ID 찾기"
+            android:textColor="@color/black"
+            android:textSize="25dp"
+            android:layout_weight="1"
+            android:gravity="center"/>
+
+
+    </LinearLayout>
+
+
 
 </LinearLayout>
