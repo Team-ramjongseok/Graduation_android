@@ -20,12 +20,15 @@ import com.example.graduation_android.locationdata.LocationData;
 import com.example.graduation_android.locationdata.LocationResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Interceptor;
@@ -142,25 +145,34 @@ public class LocationMain extends AppCompatActivity {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 Object result = response.body();
-
-                //바디 전체를 받을 때는 이렇게
-                Log.e(TAG, "received: "+new Gson().toJson(result));
-
-                //따로따로 받을 때는 이렇게
                 JsonParser jsonParser = new JsonParser();
                 JsonArray jsonArray = (JsonArray) jsonParser.parse(new Gson().toJson(result));
-                for(int i=0; i<jsonArray.size(); i++) {
-                    JsonObject jsonObject = (JsonObject) jsonArray.get(i);
-                    String get_info = jsonObject.get("cafe_info").getAsString();
-                    String get_location = jsonObject.get("location").getAsString();
-                    Double get_lat = jsonObject.get("latitude").getAsDouble();
-                    Double get_lng = jsonObject.get("longitude").getAsDouble();
+                JsonObject jsonObject = (JsonObject) jsonArray.get(0);
+                JsonArray jsonResult = jsonObject.getAsJsonArray("distanceResult");
 
-                    Log.e(TAG, "cafe_info: "+get_info);
-                    Log.e(TAG, "location: "+get_location);
-                    Log.e(TAG, "latitude : "+get_lat);
-                    Log.e(TAG, "longitude : "+get_lng);
+                for (int i = 0; i< jsonResult.size(); i++){
+                    Log.e(TAG, "received: "+ jsonResult.get(i));
+
                 }
+                // 각 객체의 값들 알고싶을때
+//                jsonResult.get(i).getAsJsonObject().get("cafe_info").getAsString()
+//                Log.e(TAG, "received: "+ jsonObject.get("distanceResult"));
+//                ArrayList<Cafe> test =  new ArrayList<>();
+//                test.add(jsonObject.get("distanceResult"))
+//                Log.e(TAG, "received: "+test);
+
+//                for(int i=0; i<jsonArray.size(); i++) {
+//                    JsonObject jsonObject = (JsonObject) jsonArray.get(i);
+//                    String get_info = jsonObject.get("cafe_info").getAsString();
+//                    String get_location = jsonObject.get("location").getAsString();
+//                    Double get_lat = jsonObject.get("latitude").getAsDouble();
+//                    Double get_lng = jsonObject.get("longitude").getAsDouble();
+//
+//                    Log.e(TAG, "cafe_info: "+get_info);
+//                    Log.e(TAG, "location: "+get_location);
+//                    Log.e(TAG, "latitude : "+get_lat);
+//                    Log.e(TAG, "longitude : "+get_lng);
+//                }
 
 
             }
@@ -171,5 +183,26 @@ public class LocationMain extends AppCompatActivity {
             }
         });
     }
+    public class Cafe {
+        @SerializedName("cafe_info")
+        public String cafe_info;
 
+        @SerializedName("location")
+        public String location;
+
+        @SerializedName("seat_empty")
+        public int seat_empty;
+
+        @SerializedName("seat_all")
+        public int seat_all;
+
+        @SerializedName("latitude")
+        public Double latitude;
+
+        @SerializedName("longitude")
+        public Double longitude;
+
+        @SerializedName("distance")
+        public Double distance;
+    }
 }
