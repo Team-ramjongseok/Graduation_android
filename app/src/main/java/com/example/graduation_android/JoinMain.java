@@ -3,6 +3,7 @@ package com.example.graduation_android;
 import android.content.DialogInterface;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,6 +42,7 @@ public class JoinMain extends AppCompatActivity {
 
     private Retrofit retrofit;
     private LoginServiceApi service;
+    private SharedPreferences preferences; //토큰 저장을 위한 sharedPreferences
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,13 +58,15 @@ public class JoinMain extends AppCompatActivity {
         joinBtn = findViewById(R.id.join_main_button);
         goBack = findViewById(R.id.go_back_join);
 
-
         /* retrofit2 */
         retrofit = new Retrofit.Builder()
                 .baseUrl(URL)
                 .addConverterFactory(GsonConverterFactory.create()) //json 분석하기 위해 추가
                 .build();
         service = retrofit.create(LoginServiceApi.class);
+
+        /* sharedPreference : 앱 내에서만 데이터가 사용되도록 */
+        preferences = getSharedPreferences("Tokens", MODE_PRIVATE);
 
 
         goBack.setOnClickListener(new View.OnClickListener() {
@@ -113,8 +117,16 @@ public class JoinMain extends AppCompatActivity {
                     else if (result.getMessage().equals("join success")) {
                         Toast.makeText(JoinMain.this, "로그인 성공, 다시 로그인 해주세요.", Toast.LENGTH_SHORT).show();
 
+                        /* sharedPreferences */
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("accessToken", result.getAccessToken());
+                        editor.commit();
+                        getPreferences();
+
+                        /* 회원가입 성공 후 메인화면으로 돌아감 */
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
+
                     }
                 }
 
@@ -128,4 +140,8 @@ public class JoinMain extends AppCompatActivity {
         });
     }
 
+    //sharedPreferences 확인용
+    private void getPreferences() {
+        Log.e(TAG, "saved token: "+preferences.getString("accessToken", ""));
+    }
 }

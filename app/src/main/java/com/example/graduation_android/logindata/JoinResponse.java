@@ -16,9 +16,14 @@ public class JoinResponse {
     @SerializedName("nickname")
     private String nickname;
 
+    @SerializedName("accessToken")
+    private String accessToken;
+
     public String getMessage() {
         return message;
     }
+
+    public String getAccessToken() { return accessToken; }
 
     public String getEmail() {
         return email;
