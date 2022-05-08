@@ -117,7 +117,10 @@ public class LocationMain extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
+                        StringBuffer coord = new StringBuffer();
+                        coord.append(currentLng+","+currentLat);
                         requestGeocode(); // reverse geocoding start
+
                     }
                 }).start();
                 sendLocation(new LocationData(currentLat, currentLng));
@@ -127,7 +130,9 @@ public class LocationMain extends AppCompatActivity {
 
     // reverse Geocoding
     public void requestGeocode() {
-        String coord = "127.1234308,37.3850143";
+        StringBuffer coord = new StringBuffer();
+        coord.append("127.068151,37.547369");
+
         String query = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords="
                     + coord + "&sourcecrs=epsg:4326&output=json&orders=addr&output=json";
         String API_ID = BuildConfig.API_ID;
@@ -155,8 +160,9 @@ public class LocationMain extends AppCompatActivity {
             while ((line = bufferedReader.readLine()) != null) {
                     stringBuffer.append(line + "\n");
             }
+            Log.e(TAG, "received: "+stringBuffer);
 
-            jsonParser(stringBuffer);
+            regionJsonParser(stringBuffer);
 
         } catch (Exception e){
             e.printStackTrace();
@@ -164,7 +170,7 @@ public class LocationMain extends AppCompatActivity {
     }
 
     // json 파싱
-    public void jsonParser(StringBuffer stringBuffer) {
+    public void regionJsonParser(StringBuffer stringBuffer) {
         try {
             StringBuffer userRegion =  new StringBuffer();
             JsonParser jsonParser = new JsonParser();
