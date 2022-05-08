@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    Button btnLogin, btnPayment;
+    Button btnLogin, btnPayment; // loginButton
     LinearLayout btnLocation;
 
     private RecyclerView mRecyclerView;
