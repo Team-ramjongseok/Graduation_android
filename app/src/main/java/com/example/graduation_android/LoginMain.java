@@ -2,6 +2,7 @@ package com.example.graduation_android;
 
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 
 import android.os.Bundle;
@@ -25,11 +26,16 @@ import com.example.graduation_android.logindata.JoinData;
 import com.example.graduation_android.logindata.JoinResponse;
 import com.example.graduation_android.logindata.LoginData;
 import com.example.graduation_android.logindata.LoginResponse;
+import com.example.graduation_android.logindata.TokenApi;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.Map;
 
 import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,7 +55,8 @@ public class LoginMain extends AppCompatActivity {
 
     private Retrofit retrofit;
     private LoginServiceApi service;
-    private Interceptor interceptor;
+    private Interceptor interceptor; //토큰 통신용 인터셉터 (헤더 추가)
+    private SharedPreferences preferences; //토큰 저장 공간
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,13 +84,8 @@ public class LoginMain extends AppCompatActivity {
                 .build();
         service = retrofit.create(LoginServiceApi.class);
 
-//        interceptor = new Interceptor() {
-//            @NonNull
-//            @Override
-//            public okhttp3.Response intercept(@NonNull Chain chain) throws IOException {
-//                String token =
-//            }
-//        }
+        /* sharedPreference : 앱 내에서만 데이터가 사용되도록 */
+        preferences = getSharedPreferences("Tokens", MODE_PRIVATE);
 
 
         //회원가입 버튼 클릭 시 동작
@@ -154,7 +156,6 @@ public class LoginMain extends AppCompatActivity {
     }
 
 
-
     /* 로그인 */
     private void startLogin(LoginData data) {
         service.userLogin(data).enqueue(new Callback<LoginResponse>() {
@@ -165,9 +166,55 @@ public class LoginMain extends AppCompatActivity {
                     Log.v(TAG, "result= " + result.getMessage());
                     Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
 
+                    /* 로그인 성공했을 경우 */
                     if(result.getMessage().equals("login success")) {
                         Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                         txtId.setTextColor(Color.BLUE);
+
+                        /* SharedPreferences */
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("accessToken", result.getAccessToken());
+                        editor.putString("refreshToken", result.getRefreshToken());
+                        editor.commit();
+                        getPreferences();
+
+
+//                        String tokenStr = null;
+//                        /* 토큰 통신을 위한 interceptor */
+//                        interceptor = new Interceptor() {
+//                            @NonNull
+//                            @Override
+//                            public okhttp3.Response intercept(@NonNull Chain chain) throws IOException {
+//                                String token = preferences.getString("accessToken", ""); //토큰이 존재하지 않을경우 빈 값을 저장
+//                                Request newRequest;
+//                                if(token!=null && !token.equals("")) { //토큰이 없는 경우
+//                                    //Authorization 헤더에 토큰 추가
+//                                    newRequest = chain.request().newBuilder().addHeader("LoginData", token).build();
+//                                    Date expireDate = result.getExpireTime();
+//                                    if(expireDate.getTime() <= System.currentTimeMillis()) { //토큰이 만료되었다면
+//                                        //refreshToken 갱신 필요 -> api 호출
+//                                        TokenApi api = null;
+//                                        Map<String, String> bodyToken = api.refreshToken(preferences.getString("refreshToken", "")).execute().body();
+//
+//                                        if(bodyToken!=null) {
+//                                            //클라이언트의 토큰 갱신 수행
+//                                            newRequest = chain.request().newBuilder().addHeader("accessToken", tokenStr).build();
+//                                            return chain.proceed(newRequest);
+//                                        }
+//                                    }
+//                                } else newRequest = chain.request();
+//                                return chain.proceed(newRequest);
+//                            }
+//                        };
+//
+//                        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+//                        builder.interceptors().add(interceptor);
+//                        OkHttpClient client = builder.build();
+//
+//                        TokenApi api = retrofit.create(TokenApi.class);
+
+
+
                     }
                     else {
                         Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
@@ -187,6 +234,8 @@ public class LoginMain extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
+
+
     }
 
     public class User {
@@ -210,6 +259,11 @@ public class LoginMain extends AppCompatActivity {
             this.email = email;
         }
 
-
     }
+
+    private void getPreferences() {
+        Log.e(TAG, "saved token: "+preferences.getString("accessToken", ""));
+    }
+
+
 }
