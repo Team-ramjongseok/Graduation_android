@@ -2,6 +2,7 @@ package com.example.graduation_android;
 
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 
 import android.os.Bundle;
@@ -25,11 +26,17 @@ import com.example.graduation_android.logindata.JoinData;
 import com.example.graduation_android.logindata.JoinResponse;
 import com.example.graduation_android.logindata.LoginData;
 import com.example.graduation_android.logindata.LoginResponse;
+import com.example.graduation_android.tokens.TokenData;
+import com.example.graduation_android.tokens.TokenResponse;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.Map;
 
 import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,6 +57,8 @@ public class LoginMain extends AppCompatActivity {
     private Retrofit retrofit;
     private LoginServiceApi service;
     private Interceptor interceptor;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +79,52 @@ public class LoginMain extends AppCompatActivity {
         underlineTxt.setSpan(new UnderlineSpan(), 0, underlineTxt.length(), 0);
         joinBtn.setText(underlineTxt);
 
+
+        /* 토큰 갱신을 위한 intercepter */
+        interceptor = new Interceptor() {
+            @NonNull
+            @Override
+            public okhttp3.Response intercept(@NonNull Chain chain) throws IOException {
+                String acsToken = preferences.getString("accessToken", "");
+                String refToken = preferences.getString("refreshToken", "");
+                Request newRequest;
+                if(acsToken != null && !acsToken.equals("")) { //if token dosen't exist
+                    newRequest = chain.request().newBuilder().addHeader("accessToken", acsToken).build();
+                    if(System.currentTimeMillis() - preferences.getInt("expiresIn", 0) < 100) {
+                        /*
+                        토큰 유효기간 얼마 안남았으면
+                        기존에 저장되어 있던 유저 정보와 accessToken을 제거하고
+                        토큰을 다시 요청해야 함
+                         */
+
+                        editor = preferences.edit();
+                        editor.remove("nickname");
+                        editor.commit();
+
+                        //refreshToken 갱신하기 위해 api 호출
+                        tokenCheck(new TokenData(acsToken, refToken));
+
+                        //새로운 토큰들로 갱신
+                        acsToken = preferences.getString("accessToken", "");
+                        refToken = preferences.getString("refreshToken", "");
+                        
+                        //통신을 위해 헤더에 추가
+                        newRequest = chain.request().newBuilder().addHeader("accessToken", acsToken).build();
+
+                        return chain.proceed(newRequest);
+                    }
+                }
+                else {
+                    newRequest = chain.request();
+                }
+                return chain.proceed(newRequest);
+            }
+        };
+
+        OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder();
+        httpBuilder.interceptors().add(interceptor);
+
+
         /* retrofit2 */
         retrofit = new Retrofit.Builder()
                 .baseUrl(URL)
@@ -77,13 +132,9 @@ public class LoginMain extends AppCompatActivity {
                 .build();
         service = retrofit.create(LoginServiceApi.class);
 
-//        interceptor = new Interceptor() {
-//            @NonNull
-//            @Override
-//            public okhttp3.Response intercept(@NonNull Chain chain) throws IOException {
-//                String token =
-//            }
-//        }
+        /* sharedPreference : 앱 내에서만 데이터가 사용되도록 */
+        preferences = getSharedPreferences("Tokens", MODE_PRIVATE);
+
 
 
         //회원가입 버튼 클릭 시 동작
@@ -116,43 +167,7 @@ public class LoginMain extends AppCompatActivity {
             }
         });
 
-
-        /* retrofit test */
-        /*
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Call<ResponseBody> call_get = service.getFunc("get data");
-                call_get.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if(response.isSuccessful()) {
-                            try {
-                                String result = response.body().string();
-                                Log.v(TAG, "result= " + result);
-                                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        else {
-                            Log.v(TAG, "err= " + String.valueOf(response.code()));
-                            Toast.makeText(getApplicationContext(), "err= " + String.valueOf(response.code()), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.v(TAG, "fail");
-                        Toast.makeText(getApplicationContext(), "response fail", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-
-         */
     }
-
 
 
     /* 로그인 */
@@ -168,6 +183,22 @@ public class LoginMain extends AppCompatActivity {
                     if(result.getMessage().equals("login success")) {
                         Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                         txtId.setTextColor(Color.BLUE);
+
+                        /* sharedPreferences */
+                        editor = preferences.edit();
+                        editor.putString("accessToken", result.getAccessToken());
+                        editor.putString("refreshToken", result.getRefreshToken());
+                        editor.putString("nickname", result.getNickname());
+                        editor.putInt("expiresIn", result.getExpiresIn());
+                        editor.commit();
+                        getPreferences();
+
+
+                        /* 회원가입 성공 후 메인화면으로 돌아감 */
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+
+
                     }
                     else {
                         Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
@@ -189,6 +220,40 @@ public class LoginMain extends AppCompatActivity {
         });
     }
 
+
+    /* 토큰 통신 */
+    private void tokenCheck(TokenData data) {
+        service.userTokens(data).enqueue(new Callback<TokenResponse>() {
+            @Override
+            public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
+                if(response.isSuccessful()) {
+                    TokenResponse tokenRes = response.body();
+                    Log.v(TAG, "token check init");
+                    Toast.makeText(LoginMain.this, "token check init", Toast.LENGTH_SHORT).show();
+
+                    if(tokenRes.getAccessToken() != null) {
+                        Toast.makeText(LoginMain.this, "accepted tokens", Toast.LENGTH_SHORT).show();
+
+                        /* sharedPreferences */
+                        editor = preferences.edit();
+                        editor.putString("accessToken", tokenRes.getAccessToken());
+                        editor.putString("refreshToken", tokenRes.getRefreshToken());
+                        editor.commit();
+                        getPreferences();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TokenResponse> call, Throwable t) {
+                Toast.makeText(LoginMain.this, "접속 에러", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "접속 에러 발생");
+                t.printStackTrace();
+            }
+        });
+    }
+
+
     public class User {
         @SerializedName("email")
         private String email;
@@ -209,7 +274,12 @@ public class LoginMain extends AppCompatActivity {
         public void setEmail(String email) {
             this.email = email;
         }
+    }
 
-
+    //sharedPreferences 확인용
+    private void getPreferences() {
+        Log.e(TAG, "saved token: "+preferences.getString("accessToken", ""));
+        Log.e(TAG, "saved refresh token: "+preferences.getString("refreshToken", ""));
+        Log.e(TAG, "saved nick: "+preferences.getString("nickname", ""));
     }
 }
