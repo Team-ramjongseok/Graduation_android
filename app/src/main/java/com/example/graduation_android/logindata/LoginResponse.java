@@ -26,6 +26,10 @@ public class LoginResponse {
     @SerializedName("expiresIn")
     private int expiresIn;
 
+    @SerializedName("expireTime")
+    private Date expireTime;
+  
+
     public String getMessage() {
         return message;
     }
@@ -33,6 +37,7 @@ public class LoginResponse {
     public String getEmail() {
         return email;
     }
+
 
     public String getNickname() {
         return nickname;

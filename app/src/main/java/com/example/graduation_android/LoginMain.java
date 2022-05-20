@@ -28,6 +28,7 @@ import com.example.graduation_android.logindata.LoginData;
 import com.example.graduation_android.logindata.LoginResponse;
 import com.example.graduation_android.tokens.TokenData;
 import com.example.graduation_android.tokens.TokenResponse;
+import com.example.graduation_android.logindata.TokenApi;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
@@ -59,6 +60,8 @@ public class LoginMain extends AppCompatActivity {
     private Interceptor interceptor;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
+    private Interceptor interceptor; //토큰 통신용 인터셉터 (헤더 추가)
+    private SharedPreferences preferences; //토큰 저장 공간
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,7 +139,6 @@ public class LoginMain extends AppCompatActivity {
         preferences = getSharedPreferences("Tokens", MODE_PRIVATE);
 
 
-
         //회원가입 버튼 클릭 시 동작
         joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,9 +182,11 @@ public class LoginMain extends AppCompatActivity {
                     Log.v(TAG, "result= " + result.getMessage());
                     Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
 
+                    /* 로그인 성공했을 경우 */
                     if(result.getMessage().equals("login success")) {
                         Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                         txtId.setTextColor(Color.BLUE);
+
 
                         /* sharedPreferences */
                         editor = preferences.edit();
@@ -190,15 +194,9 @@ public class LoginMain extends AppCompatActivity {
                         editor.putString("refreshToken", result.getRefreshToken());
                         editor.putString("nickname", result.getNickname());
                         editor.putInt("expiresIn", result.getExpiresIn());
+
                         editor.commit();
                         getPreferences();
-
-
-                        /* 회원가입 성공 후 메인화면으로 돌아감 */
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-
-
                     }
                     else {
                         Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
@@ -218,6 +216,8 @@ public class LoginMain extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
+
+
     }
 
 
@@ -276,10 +276,13 @@ public class LoginMain extends AppCompatActivity {
         }
     }
 
+
     //sharedPreferences 확인용
     private void getPreferences() {
         Log.e(TAG, "saved token: "+preferences.getString("accessToken", ""));
         Log.e(TAG, "saved refresh token: "+preferences.getString("refreshToken", ""));
         Log.e(TAG, "saved nick: "+preferences.getString("nickname", ""));
     }
+
+
 }
