@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnLogin, btnPayment, btnLogout;
     LinearLayout btnLocation;
-    TextView userProfile;
-    SharedPreferences preferences;
+    TextView userProfile, currentLocation;
+    SharedPreferences preferences, prefLocation;
 
     private RecyclerView mRecyclerView;
     private ArrayList<RecyclerViewItem> mList;
@@ -43,9 +43,12 @@ public class MainActivity extends AppCompatActivity {
         //btnPayment = findViewById(R.id.goto_payment);
         userProfile = findViewById(R.id.main_user_nickname);
         btnLogout = findViewById(R.id.button_logout);
+        currentLocation = findViewById(R.id.main_user_location);
+
 
         /* sharedPreferences */
         preferences = getSharedPreferences("Tokens", MODE_PRIVATE);
+        prefLocation = getSharedPreferences("Location", MODE_PRIVATE);
 
         
         //로그인 버튼 클릭시
@@ -101,6 +104,14 @@ public class MainActivity extends AppCompatActivity {
             userProfile.setVisibility(View.GONE);
             btnLogin.setVisibility(View.VISIBLE);
             btnLogout.setVisibility(View.GONE);
+        }
+
+
+        //위치 정보가 저장 되어있을 경우 위치 표시
+        String curLocation = prefLocation.getString("userLocation", "");
+        if(curLocation!="") { //위치 정보가 존재할 경우
+            currentLocation.setText(curLocation);
+            btnLocation.setClickable(false);
         }
 
 

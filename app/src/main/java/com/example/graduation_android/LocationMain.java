@@ -2,6 +2,7 @@ package com.example.graduation_android;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -52,12 +53,14 @@ public class LocationMain extends AppCompatActivity {
     private final String TAG = "LocationMain";
 
     TextView userLat, userLng;
-    Button getLocationBtn;
+    TextView getLocationBtn;
     TextView[] getLats = new TextView[100]; //received latitudes
     TextView[] getLngs = new TextView[100]; //received longitudes
 
     private Retrofit retrofit;
     private LocationServiceApi service;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,10 +77,15 @@ public class LocationMain extends AppCompatActivity {
             getLngs[i] = (TextView) findViewById(lngs);
         }
 
+
+        /* save user location with sharedPreferences */
+        preferences = getSharedPreferences("Location", MODE_PRIVATE);
+
+
         /* LocationManager */
         LocationManager locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        //permission check (whether granted or not)
+        /* permission check (whether granted or not) */
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(getApplicationContext(), "권한 필요", Toast.LENGTH_SHORT).show();
@@ -94,7 +102,7 @@ public class LocationMain extends AppCompatActivity {
             }
         }
 
-        //get location if permission is granted
+        /* get location if permission is granted */
         Location currentLocation = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         double currentLat = currentLocation.getLatitude();
         double currentLng = currentLocation.getLongitude();
@@ -185,6 +193,11 @@ public class LocationMain extends AppCompatActivity {
                 userRegion.append(nameObject.get("name").toString());
             }
             Log.e(TAG, "received: "+ userRegion);
+
+            /* save user location with sharedPreferences */
+            editor = preferences.edit();
+            editor.putString("userLocation", "");
+            editor.commit();
 
         }catch (Exception e) {
 

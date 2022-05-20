@@ -80,6 +80,10 @@ public class LoginMain extends AppCompatActivity {
         joinBtn.setText(underlineTxt);
 
 
+        /* sharedPreference : 앱 내에서만 데이터가 사용되도록 */
+        preferences = getSharedPreferences("Tokens", MODE_PRIVATE);
+
+
         /* 토큰 갱신을 위한 intercepter */
         interceptor = new Interceptor() {
             @NonNull
@@ -131,10 +135,6 @@ public class LoginMain extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create()) //json 분석하기 위해 추가
                 .build();
         service = retrofit.create(LoginServiceApi.class);
-
-        /* sharedPreference : 앱 내에서만 데이터가 사용되도록 */
-        preferences = getSharedPreferences("Tokens", MODE_PRIVATE);
-
 
 
         //회원가입 버튼 클릭 시 동작
