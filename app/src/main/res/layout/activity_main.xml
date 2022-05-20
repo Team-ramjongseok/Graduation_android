@@ -30,6 +30,21 @@
             android:background="@drawable/login_button"
             android:text="로그인" />
 
+        <TextView
+            android:id="@+id/main_user_nickname"
+            android:layout_width="90dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:text="닉네임 님"
+            android:textColor="@color/black"
+            android:textSize="17dp"
+            android:visibility="gone"/>
+
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -59,16 +74,18 @@
             <ImageView
                 android:layout_width="23dp"
                 android:layout_height="23dp"
-                android:src="@drawable/location_pin"/>
+                android:src="@drawable/location_pin" />
+
             <TextView
+                android:id="@+id/main_user_location"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
                 android:text="위치 확인"
                 android:textColor="@color/black"
-                android:textSize="17dp"
-                android:gravity="center"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="10dp"/>
+                android:textSize="17dp" />
 
         </LinearLayout>
 
@@ -84,6 +101,15 @@
         tools:listitem="@layout/main_cafe_list_item"
         tools:itemCount="5"/>
 
+
+    <Button
+        android:id="@+id/button_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="logout"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:visibility="gone"/>
 
 
 
