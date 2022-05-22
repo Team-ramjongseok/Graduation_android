@@ -48,7 +48,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint=" sample@gmail.com"
-            android:layout_marginRight="80dp"/>
+            android:layout_marginRight="80dp"
+            android:inputType="textEmailAddress"/>
 
     </LinearLayout>
 
@@ -99,7 +100,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="80dp"
-            android:hint=" 6자리 이상" />
+            android:hint=" 6자리 이상"
+            android:inputType="textPassword"/>
 
     </LinearLayout>
 
@@ -125,7 +127,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="80dp"
-            android:hint=" 6자리 이상" />
+            android:hint=" 6자리 이상"
+            android:inputType="phone" />
 
     </LinearLayout>
 

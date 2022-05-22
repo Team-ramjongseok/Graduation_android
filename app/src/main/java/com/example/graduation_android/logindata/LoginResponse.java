@@ -14,14 +14,21 @@ public class LoginResponse {
     @SerializedName("email")
     private String email;
 
+    @SerializedName("nickname")
+    private String nickname;
+
     @SerializedName("accessToken")
     private String accessToken;
 
     @SerializedName("refreshToken")
     private String refreshToken;
 
+    @SerializedName("expiresIn")
+    private int expiresIn;
+
     @SerializedName("expireTime")
     private Date expireTime;
+  
 
     public String getMessage() {
         return message;
@@ -31,9 +38,16 @@ public class LoginResponse {
         return email;
     }
 
+
+    public String getNickname() {
+        return nickname;
+    }
+
     public String getAccessToken() { return accessToken; }
 
     public String getRefreshToken() { return refreshToken; }
 
-    public Date getExpireTime() { return expireTime; }
+    public int getExpiresIn() {
+        return expiresIn;
+    }
 }

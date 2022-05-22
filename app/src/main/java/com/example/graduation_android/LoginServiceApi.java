@@ -4,6 +4,8 @@ import com.example.graduation_android.logindata.JoinData;
 import com.example.graduation_android.logindata.JoinResponse;
 import com.example.graduation_android.logindata.LoginData;
 import com.example.graduation_android.logindata.LoginResponse;
+import com.example.graduation_android.tokens.TokenData;
+import com.example.graduation_android.tokens.TokenResponse;
 import com.example.graduation_android.logindata.TokenData;
 import com.example.graduation_android.logindata.TokenResponse;
 
@@ -30,7 +32,7 @@ public interface LoginServiceApi {
     Call<LoginResponse> userLogin(@Body LoginData data); //로그인 시에 서버에 보낼 이메일과 비밀번호 정보
 
     @POST("/auth/token")
-    Call<TokenResponse> tokenAuth(@Body TokenData data);
+    Call<TokenResponse> userTokens(@Body TokenData tokenData);
 
     @FormUrlEncoded
     @PUT("/{id}")
