@@ -22,21 +22,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.graduation_android.logindata.JoinData;
-import com.example.graduation_android.logindata.JoinResponse;
 import com.example.graduation_android.logindata.LoginData;
 import com.example.graduation_android.logindata.LoginResponse;
-<<<<<<< HEAD
-import com.example.graduation_android.logindata.TokenApi;
-=======
 import com.example.graduation_android.tokens.TokenData;
 import com.example.graduation_android.tokens.TokenResponse;
->>>>>>> temp_branch
 import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.Map;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -60,14 +52,9 @@ public class LoginMain extends AppCompatActivity {
 
     private Retrofit retrofit;
     private LoginServiceApi service;
-<<<<<<< HEAD
     private Interceptor interceptor; //토큰 통신용 인터셉터 (헤더 추가)
     private SharedPreferences preferences; //토큰 저장 공간
-=======
-    private Interceptor interceptor;
-    private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
->>>>>>> temp_branch
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,10 +74,6 @@ public class LoginMain extends AppCompatActivity {
         SpannableString underlineTxt = new SpannableString(joinBtn.getText().toString());
         underlineTxt.setSpan(new UnderlineSpan(), 0, underlineTxt.length(), 0);
         joinBtn.setText(underlineTxt);
-
-
-        /* sharedPreference : 앱 내에서만 데이터가 사용되도록 */
-        preferences = getSharedPreferences("Tokens", MODE_PRIVATE);
 
 
         /* 토큰 갱신을 위한 intercepter */
@@ -120,7 +103,7 @@ public class LoginMain extends AppCompatActivity {
                         //새로운 토큰들로 갱신
                         acsToken = preferences.getString("accessToken", "");
                         refToken = preferences.getString("refreshToken", "");
-                        
+
                         //통신을 위해 헤더에 추가
                         newRequest = chain.request().newBuilder().addHeader("accessToken", acsToken).build();
 
@@ -145,12 +128,9 @@ public class LoginMain extends AppCompatActivity {
                 .build();
         service = retrofit.create(LoginServiceApi.class);
 
-<<<<<<< HEAD
         /* sharedPreference : 앱 내에서만 데이터가 사용되도록 */
         preferences = getSharedPreferences("Tokens", MODE_PRIVATE);
 
-=======
->>>>>>> temp_branch
 
         //회원가입 버튼 클릭 시 동작
         joinBtn.setOnClickListener(new View.OnClickListener() {
@@ -166,13 +146,17 @@ public class LoginMain extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = inputId.getText().toString();
-                String password = inputPw.getText().toString();
+                /* 입력값들중에
+                앞 뒤에 공백이 있으면 제거
+                UX 개선용
+                 */
+                String email = inputId.getText().toString().trim();
+                String password = inputPw.getText().toString().trim();
 
                 startLogin(new LoginData(email, password));
             }
         });
-        
+
         //뒤로가기 버튼 클릭 시 동작
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,68 +181,20 @@ public class LoginMain extends AppCompatActivity {
 
                     /* 로그인 성공했을 경우 */
                     if(result.getMessage().equals("login success")) {
-                        Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
-                        txtId.setTextColor(Color.BLUE);
-
-<<<<<<< HEAD
-                        /* SharedPreferences */
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString("accessToken", result.getAccessToken());
-                        editor.putString("refreshToken", result.getRefreshToken());
-=======
                         /* sharedPreferences */
                         editor = preferences.edit();
                         editor.putString("accessToken", result.getAccessToken());
                         editor.putString("refreshToken", result.getRefreshToken());
                         editor.putString("nickname", result.getNickname());
                         editor.putInt("expiresIn", result.getExpiresIn());
->>>>>>> temp_branch
                         editor.commit();
                         getPreferences();
 
-
-<<<<<<< HEAD
-//                        String tokenStr = null;
-//                        /* 토큰 통신을 위한 interceptor */
-//                        interceptor = new Interceptor() {
-//                            @NonNull
-//                            @Override
-//                            public okhttp3.Response intercept(@NonNull Chain chain) throws IOException {
-//                                String token = preferences.getString("accessToken", ""); //토큰이 존재하지 않을경우 빈 값을 저장
-//                                Request newRequest;
-//                                if(token!=null && !token.equals("")) { //토큰이 없는 경우
-//                                    //Authorization 헤더에 토큰 추가
-//                                    newRequest = chain.request().newBuilder().addHeader("LoginData", token).build();
-//                                    Date expireDate = result.getExpireTime();
-//                                    if(expireDate.getTime() <= System.currentTimeMillis()) { //토큰이 만료되었다면
-//                                        //refreshToken 갱신 필요 -> api 호출
-//                                        TokenApi api = null;
-//                                        Map<String, String> bodyToken = api.refreshToken(preferences.getString("refreshToken", "")).execute().body();
-//
-//                                        if(bodyToken!=null) {
-//                                            //클라이언트의 토큰 갱신 수행
-//                                            newRequest = chain.request().newBuilder().addHeader("accessToken", tokenStr).build();
-//                                            return chain.proceed(newRequest);
-//                                        }
-//                                    }
-//                                } else newRequest = chain.request();
-//                                return chain.proceed(newRequest);
-//                            }
-//                        };
-//
-//                        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-//                        builder.interceptors().add(interceptor);
-//                        OkHttpClient client = builder.build();
-//
-//                        TokenApi api = retrofit.create(TokenApi.class);
-
-=======
-                        /* 회원가입 성공 후 메인화면으로 돌아감 */
+                        
+                        //로그인 성공하면 메인화면으로 돌아감
+                        Toast.makeText(getApplicationContext(), result.getNickname()+"님 안녕", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
->>>>>>> temp_branch
-
-
                     }
                     else {
                         Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
@@ -338,18 +274,12 @@ public class LoginMain extends AppCompatActivity {
         }
     }
 
-<<<<<<< HEAD
-=======
+
     //sharedPreferences 확인용
     private void getPreferences() {
         Log.e(TAG, "saved token: "+preferences.getString("accessToken", ""));
         Log.e(TAG, "saved refresh token: "+preferences.getString("refreshToken", ""));
         Log.e(TAG, "saved nick: "+preferences.getString("nickname", ""));
->>>>>>> temp_branch
-    }
-
-    private void getPreferences() {
-        Log.e(TAG, "saved token: "+preferences.getString("accessToken", ""));
     }
 
 

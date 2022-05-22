@@ -81,10 +81,14 @@ public class JoinMain extends AppCompatActivity {
         joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = inputId.getText().toString();
-                String nick = inputNick.getText().toString();
-                String password = inputPw.getText().toString();
-                String phone = inputPhone.getText().toString();
+                /* 입력값들중에
+                앞 뒤에 공백이 있으면 제거
+                UX 개선용
+                 */
+                String email = inputId.getText().toString().trim();
+                String nick = inputNick.getText().toString().trim();
+                String password = inputPw.getText().toString().trim();
+                String phone = inputPhone.getText().toString().trim();
 
                 startJoin(new JoinData(email, nick, password, phone));
             }
