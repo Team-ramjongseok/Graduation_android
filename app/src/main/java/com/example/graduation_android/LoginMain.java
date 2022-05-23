@@ -56,8 +56,6 @@ public class LoginMain extends AppCompatActivity {
     private Interceptor interceptor; //토큰 통신용 인터셉터 (헤더 추가)
     private SharedPreferences preferences; //토큰 저장 공간
     private SharedPreferences.Editor editor;
-    private Interceptor interceptor; //토큰 통신용 인터셉터 (헤더 추가)
-    private SharedPreferences preferences; //토큰 저장 공간
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
