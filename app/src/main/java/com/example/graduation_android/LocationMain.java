@@ -132,6 +132,7 @@ public class LocationMain extends AppCompatActivity {
                     }
                 }).start();
                 sendLocation(new LocationData(currentLat, currentLng));
+
             }
         });
     }
