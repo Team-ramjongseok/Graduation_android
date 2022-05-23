@@ -6,6 +6,8 @@ import com.example.graduation_android.logindata.LoginData;
 import com.example.graduation_android.logindata.LoginResponse;
 import com.example.graduation_android.tokens.TokenData;
 import com.example.graduation_android.tokens.TokenResponse;
+import com.example.graduation_android.logindata.TokenData;
+import com.example.graduation_android.logindata.TokenResponse;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

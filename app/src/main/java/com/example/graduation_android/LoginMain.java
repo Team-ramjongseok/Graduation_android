@@ -26,6 +26,7 @@ import com.example.graduation_android.logindata.LoginData;
 import com.example.graduation_android.logindata.LoginResponse;
 import com.example.graduation_android.tokens.TokenData;
 import com.example.graduation_android.tokens.TokenResponse;
+import com.example.graduation_android.logindata.TokenApi;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
@@ -55,6 +56,8 @@ public class LoginMain extends AppCompatActivity {
     private Interceptor interceptor; //토큰 통신용 인터셉터 (헤더 추가)
     private SharedPreferences preferences; //토큰 저장 공간
     private SharedPreferences.Editor editor;
+    private Interceptor interceptor; //토큰 통신용 인터셉터 (헤더 추가)
+    private SharedPreferences preferences; //토큰 저장 공간
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -181,16 +184,17 @@ public class LoginMain extends AppCompatActivity {
 
                     /* 로그인 성공했을 경우 */
                     if(result.getMessage().equals("login success")) {
+
                         /* sharedPreferences */
                         editor = preferences.edit();
                         editor.putString("accessToken", result.getAccessToken());
                         editor.putString("refreshToken", result.getRefreshToken());
                         editor.putString("nickname", result.getNickname());
                         editor.putInt("expiresIn", result.getExpiresIn());
+
                         editor.commit();
                         getPreferences();
-
-                        
+        
                         //로그인 성공하면 메인화면으로 돌아감
                         Toast.makeText(getApplicationContext(), result.getNickname()+"님 안녕", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -281,6 +285,5 @@ public class LoginMain extends AppCompatActivity {
         Log.e(TAG, "saved refresh token: "+preferences.getString("refreshToken", ""));
         Log.e(TAG, "saved nick: "+preferences.getString("nickname", ""));
     }
-
 
 }
