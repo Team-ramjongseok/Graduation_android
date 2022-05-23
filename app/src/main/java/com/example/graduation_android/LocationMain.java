@@ -135,7 +135,6 @@ public class LocationMain extends AppCompatActivity {
                 }).start();
                 sendLocation(new LocationData(currentLat, currentLng));
 
-
                 Toast.makeText(getApplicationContext(), "위치 받아오기 성공", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
