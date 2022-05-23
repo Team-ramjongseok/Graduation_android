@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     TextView userProfile, currentLocation;
     SharedPreferences preferences, prefLocation;
     Button clearLocation;
+    Button btnRefresh;
 
     private RecyclerView mRecyclerView;
     private ArrayList<RecyclerViewItem> mList;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.button_logout);
         currentLocation = findViewById(R.id.main_user_location);
         clearLocation = findViewById(R.id.button_clear_location);
+        btnRefresh = findViewById(R.id.button_refresh);
 
 
         /* sharedPreferences */
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //위치 정보 제거
+        //위치 정보 제거 버튼
         clearLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,6 +98,19 @@ public class MainActivity extends AppCompatActivity {
                 finish();
                 overridePendingTransition(0, 0); //새로고침 시에 화면 전환 효과 삭제
                 Intent intent = getIntent();
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        });
+
+        //리프레시 버튼
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //화면을 새로고침
+                finish();
+                overridePendingTransition(0, 0); //새로고침 시에 화면 전환 효과 삭제
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 overridePendingTransition(0, 0);
             }
@@ -135,8 +150,6 @@ public class MainActivity extends AppCompatActivity {
 
             currentLocation.setText(curLocation);
             btnLocation.setClickable(false);
-
-
         }
         else {
             clearLocation.setVisibility(View.GONE);
@@ -151,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
                 String tempCafeName = prefLocation.getString("cafe"+i, "");
                 String tempEmptySeat = prefLocation.getString("seat"+i, "");
                 String tempEmptySeatFiltered = tempEmptySeat.replaceAll("[^1-9]", "");
-                //int tempEmptySeatInt = Integer.parseInt(tempEmptySeat);
                 addItem(tempCafeName, "빈자리 "+tempEmptySeatFiltered);
             }
         }

@@ -120,6 +120,15 @@
         android:layout_marginTop="50dp"
         android:visibility="gone"/>
 
+    <Button
+        android:id="@+id/button_refresh"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="R"
+        android:layout_gravity="right"
+        android:layout_marginRight="20dp" />
+
+
 
 
 

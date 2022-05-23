@@ -2,6 +2,7 @@ package com.example.graduation_android;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -133,6 +134,12 @@ public class LocationMain extends AppCompatActivity {
                     }
                 }).start();
                 sendLocation(new LocationData(currentLat, currentLng));
+
+
+                Toast.makeText(getApplicationContext(), "위치 받아오기 성공", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -163,7 +170,7 @@ public class LocationMain extends AppCompatActivity {
                 bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
             } else {
                 bufferedReader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-               }
+            }
 
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
@@ -234,17 +241,6 @@ public class LocationMain extends AppCompatActivity {
                     editor.putString("seat"+i, jsonCafeObject.get("seat_empty").getAsString());
                     editor.commit();
                 }
-
-
-                //test
-                for(int i=0; i<jsonResult.size(); i++) {
-                    String tempName = preferences.getString("cafe"+i, "");
-                    String tempSeat = preferences.getString("seat"+i, "");
-                    Log.e(TAG, "cafe: "+tempName);
-                    Log.e(TAG, "seat: "+tempSeat);
-                }
-
-
 
                 // 각 객체의 값들 알고싶을때
                 /*
