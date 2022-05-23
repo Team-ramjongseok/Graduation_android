@@ -74,16 +74,18 @@
             <ImageView
                 android:layout_width="23dp"
                 android:layout_height="23dp"
-                android:src="@drawable/location_pin"/>
+                android:src="@drawable/location_pin" />
+
             <TextView
+                android:id="@+id/main_user_location"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
                 android:text="위치 확인"
                 android:textColor="@color/black"
-                android:textSize="17dp"
-                android:gravity="center"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="10dp"/>
+                android:textSize="17dp" />
 
         </LinearLayout>
 

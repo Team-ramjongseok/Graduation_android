@@ -22,8 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.graduation_android.logindata.JoinData;
-import com.example.graduation_android.logindata.JoinResponse;
 import com.example.graduation_android.logindata.LoginData;
 import com.example.graduation_android.logindata.LoginResponse;
 import com.example.graduation_android.tokens.TokenData;
@@ -32,8 +30,6 @@ import com.example.graduation_android.logindata.TokenApi;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.Map;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -57,8 +53,8 @@ public class LoginMain extends AppCompatActivity {
 
     private Retrofit retrofit;
     private LoginServiceApi service;
-    private Interceptor interceptor;
-    private SharedPreferences preferences;
+    private Interceptor interceptor; //토큰 통신용 인터셉터 (헤더 추가)
+    private SharedPreferences preferences; //토큰 저장 공간
     private SharedPreferences.Editor editor;
     private Interceptor interceptor; //토큰 통신용 인터셉터 (헤더 추가)
     private SharedPreferences preferences; //토큰 저장 공간
@@ -110,7 +106,7 @@ public class LoginMain extends AppCompatActivity {
                         //새로운 토큰들로 갱신
                         acsToken = preferences.getString("accessToken", "");
                         refToken = preferences.getString("refreshToken", "");
-                        
+
                         //통신을 위해 헤더에 추가
                         newRequest = chain.request().newBuilder().addHeader("accessToken", acsToken).build();
 
@@ -153,13 +149,17 @@ public class LoginMain extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = inputId.getText().toString();
-                String password = inputPw.getText().toString();
+                /* 입력값들중에
+                앞 뒤에 공백이 있으면 제거
+                UX 개선용
+                 */
+                String email = inputId.getText().toString().trim();
+                String password = inputPw.getText().toString().trim();
 
                 startLogin(new LoginData(email, password));
             }
         });
-        
+
         //뒤로가기 버튼 클릭 시 동작
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,9 +184,6 @@ public class LoginMain extends AppCompatActivity {
 
                     /* 로그인 성공했을 경우 */
                     if(result.getMessage().equals("login success")) {
-                        Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
-                        txtId.setTextColor(Color.BLUE);
-
 
                         /* sharedPreferences */
                         editor = preferences.edit();
@@ -197,6 +194,11 @@ public class LoginMain extends AppCompatActivity {
 
                         editor.commit();
                         getPreferences();
+        
+                        //로그인 성공하면 메인화면으로 돌아감
+                        Toast.makeText(getApplicationContext(), result.getNickname()+"님 안녕", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
                     }
                     else {
                         Toast.makeText(LoginMain.this, result.getMessage(), Toast.LENGTH_SHORT).show();
@@ -283,6 +285,5 @@ public class LoginMain extends AppCompatActivity {
         Log.e(TAG, "saved refresh token: "+preferences.getString("refreshToken", ""));
         Log.e(TAG, "saved nick: "+preferences.getString("nickname", ""));
     }
-
 
 }
