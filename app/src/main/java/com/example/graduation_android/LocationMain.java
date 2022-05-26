@@ -2,6 +2,7 @@ package com.example.graduation_android;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,7 +55,7 @@ public class LocationMain extends AppCompatActivity {
     private final String TAG = "LocationMain";
 
     TextView userLat, userLng;
-    TextView getLocationBtn;
+    Button getLocationBtn;
     TextView[] getLats = new TextView[100]; //received latitudes
     TextView[] getLngs = new TextView[100]; //received longitudes
 
@@ -68,7 +70,7 @@ public class LocationMain extends AppCompatActivity {
 
         userLat = findViewById(R.id.user_lat_txt);
         userLng = findViewById(R.id.user_lng_txt);
-        getLocationBtn = findViewById(R.id.location_btn);
+        getLocationBtn = findViewById(R.id.location_btn_temp);
         for(int i=0; i<5; i++) { //우선 5개만 받아보자
             int lats = getResources().getIdentifier("get_lat"+(i+1), "id", getPackageName());
             int lngs = getResources().getIdentifier("get_lng"+(i+1), "id", getPackageName());
@@ -133,6 +135,10 @@ public class LocationMain extends AppCompatActivity {
                 }).start();
                 sendLocation(new LocationData(currentLat, currentLng));
 
+                Toast.makeText(getApplicationContext(), "위치 받아오기 성공", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -163,13 +169,13 @@ public class LocationMain extends AppCompatActivity {
                 bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
             } else {
                 bufferedReader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-               }
+            }
 
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
-                    stringBuffer.append(line + "\n");
+                stringBuffer.append(line + "\n");
             }
-            Log.e(TAG, "received: "+stringBuffer);
+            Log.e(TAG, "received string: "+stringBuffer);
 
             regionJsonParser(stringBuffer);
 
@@ -187,21 +193,31 @@ public class LocationMain extends AppCompatActivity {
             JsonArray jsonArray = (JsonArray) jsonObject.get("results");
             JsonObject regionObject = (JsonObject) jsonArray.get(0);
             JsonObject areaObject = regionObject.getAsJsonObject("region");
-            Log.e(TAG, "received: "+ areaObject);
+            Log.e(TAG, "received areaObject: "+ areaObject);
+
+
+            String[] splitedUserRegion = new String[5]; //유저 위치 정보를 나눠서 저장할 공간
+            String match = "[^\\uAC00-\\uD7A3xfe0-9a-zA-Z]"; //한글, 영어 외에 다 제거
 
             for (int i = 1; i<= 4; i++){
                 JsonObject nameObject = areaObject.getAsJsonObject("area"+i);
+
+                splitedUserRegion[i] = nameObject.get("name").toString().replaceAll(match, ""); //쓸데없는 것들 제거
+
                 userRegion.append(nameObject.get("name").toString());
             }
-            Log.e(TAG, "received: "+ userRegion);
+            Log.e(TAG, "received userRegion: "+ userRegion);
+            
+            /* 받은 데이터들 중에서 '구'와 '동'만 뽑아서 써야지 */
+            String currentUserRegion = splitedUserRegion[2] + " " + splitedUserRegion[3];
 
             /* save user location with sharedPreferences */
             editor = preferences.edit();
-            editor.putString("userLocation", "");
+            editor.putString("userLocation", currentUserRegion);
             editor.commit();
 
         }catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -216,9 +232,15 @@ public class LocationMain extends AppCompatActivity {
                 JsonArray jsonResult = jsonObject.getAsJsonArray("distanceResult");
 
                 for (int i = 0; i< jsonResult.size(); i++){
-                    Log.e(TAG, "received: "+ jsonResult.get(i));
+                    JsonObject jsonCafeObject = (JsonObject) jsonResult.get(i);
+                    Log.e(TAG, "received json: "+ jsonCafeObject);
 
+                    editor = preferences.edit();
+                    editor.putString("cafe"+i, jsonCafeObject.get("name").getAsString());
+                    editor.putString("seat"+i, jsonCafeObject.get("seat_empty").getAsString());
+                    editor.commit();
                 }
+
                 // 각 객체의 값들 알고싶을때
                 /*
                 jsonResult.get(i).getAsJsonObject().get("cafe_info").getAsString()
@@ -240,8 +262,6 @@ public class LocationMain extends AppCompatActivity {
                     Log.e(TAG, "longitude : "+get_lng);
                 }
                 */
-
-
 
             }
 

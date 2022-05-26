@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout btnLocation;
     TextView userProfile, currentLocation;
     SharedPreferences preferences, prefLocation;
+    Button clearLocation;
+    Button btnRefresh;
 
     private RecyclerView mRecyclerView;
     private ArrayList<RecyclerViewItem> mList;
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         userProfile = findViewById(R.id.main_user_nickname);
         btnLogout = findViewById(R.id.button_logout);
         currentLocation = findViewById(R.id.main_user_location);
+        clearLocation = findViewById(R.id.button_clear_location);
+        btnRefresh = findViewById(R.id.button_refresh);
 
 
         /* sharedPreferences */
@@ -81,6 +85,38 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        //위치 정보 제거 버튼
+        clearLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = prefLocation.edit();
+                editor.clear();
+                editor.commit();
+                Toast.makeText(getApplicationContext(), "location cleared", Toast.LENGTH_SHORT).show();
+
+                //화면을 새로고침
+                finish();
+                overridePendingTransition(0, 0); //새로고침 시에 화면 전환 효과 삭제
+                Intent intent = getIntent();
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        });
+
+        //리프레시 버튼
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //화면을 새로고침
+                finish();
+                overridePendingTransition(0, 0); //새로고침 시에 화면 전환 효과 삭제
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        });
+
+
         //현재 위치를 조회하는 버튼
         btnLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,15 +146,31 @@ public class MainActivity extends AppCompatActivity {
         //위치 정보가 저장 되어있을 경우 위치 표시
         String curLocation = prefLocation.getString("userLocation", "");
         if(curLocation!="") { //위치 정보가 존재할 경우
+            clearLocation.setVisibility(View.VISIBLE);
+
             currentLocation.setText(curLocation);
             btnLocation.setClickable(false);
+        }
+        else {
+            clearLocation.setVisibility(View.GONE);
+            btnLocation.setClickable(true);
         }
 
 
         /* RecyclerView */
         firstInit();
-        for(int i=0; i<5; i++) {
-            addItem("cafe "+(i+1), "빈자리 5");
+        if(curLocation!="") {
+            for(int i=0; i<5; i++) {
+                String tempCafeName = prefLocation.getString("cafe"+i, "");
+                String tempEmptySeat = prefLocation.getString("seat"+i, "");
+                String tempEmptySeatFiltered = tempEmptySeat.replaceAll("[^1-9]", "");
+                addItem(tempCafeName, "빈자리 "+tempEmptySeatFiltered);
+            }
+        }
+        else {
+            for(int i=0; i<5; i++) {
+                addItem("cafe "+(i+1), "빈자리 "+i);
+            }
         }
 
         mRecyclerViewAdapter = new RecyclerViewAdapter(mList);
