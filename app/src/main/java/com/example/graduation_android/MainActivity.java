@@ -24,9 +24,10 @@ public class MainActivity extends AppCompatActivity {
     Button btnLogin, btnPayment, btnLogout;
     LinearLayout btnLocation;
     TextView userProfile, currentLocation;
+    TextView showMore;
     SharedPreferences preferences, prefLocation;
     Button clearLocation;
-    Button btnRefresh;
+    Button btnRefresh, tempPayment;
 
     private RecyclerView mRecyclerView;
     private ArrayList<RecyclerViewItem> mList;
@@ -44,10 +45,12 @@ public class MainActivity extends AppCompatActivity {
         btnLocation = findViewById(R.id.goto_location);
         //btnPayment = findViewById(R.id.goto_payment);
         userProfile = findViewById(R.id.main_user_nickname);
+        showMore = findViewById(R.id.main_show_more);
         btnLogout = findViewById(R.id.button_logout);
         currentLocation = findViewById(R.id.main_user_location);
         clearLocation = findViewById(R.id.button_clear_location);
         btnRefresh = findViewById(R.id.button_refresh);
+        tempPayment = findViewById(R.id.temp_payment);
 
 
         /* sharedPreferences */
@@ -122,6 +125,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), LocationMain.class);
+                startActivity(intent);
+            }
+        });
+
+
+        tempPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Payment.class);
                 startActivity(intent);
             }
         });
