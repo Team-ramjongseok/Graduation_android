@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     ImageView btnDrawer, btnCloseDrawer;
     DrawerLayout drawer;
 
-
     private RecyclerView mRecyclerView;
     private ArrayList<RecyclerViewItem> mList;
     private RecyclerViewAdapter mRecyclerViewAdapter;
@@ -170,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+      
         //토큰이 유효할 경우 유저 정보를 표시
         String nickName = preferences.getString("nickname", "");
         if(nickName!="") { //유저 정보가 존재할 경우
