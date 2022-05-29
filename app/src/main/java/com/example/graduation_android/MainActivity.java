@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        //결제 화면으로 가는 임시 버튼
         tempPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -161,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        //drawer에서 닫기 버튼 클릭하면 닫힘
         btnCloseDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -232,6 +234,18 @@ public class MainActivity extends AppCompatActivity {
         item.setEmptyseat(emptySeat);
 
         mList.add(item);
+    }
+
+    //뒤로가기 버튼을 통해 drawer를 닫을 수 있음
+    @Override
+    public void onBackPressed() {
+        if(drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        else {
+            super.onBackPressed();
+        }
+
     }
 
 }
