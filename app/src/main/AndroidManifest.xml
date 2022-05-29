@@ -32,6 +32,8 @@
         <activity android:name=".LoginMain"/>
         <activity android:name=".JoinMain" />
         <activity android:name=".LocationMain" />
+        <activity android:name=".CafeDetail"/>
+        <activity android:name=".Payment" />
     </application>
 
 </manifest>
