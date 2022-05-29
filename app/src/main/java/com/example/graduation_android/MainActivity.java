@@ -1,7 +1,10 @@
 package com.example.graduation_android;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,11 +13,16 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.AttachedSurfaceControl;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
@@ -28,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences preferences, prefLocation;
     Button clearLocation;
     Button btnRefresh, tempPayment;
+    ImageView btnDrawer, btnCloseDrawer;
+    DrawerLayout drawer;
 
     private RecyclerView mRecyclerView;
     private ArrayList<RecyclerViewItem> mList;
@@ -51,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
         clearLocation = findViewById(R.id.button_clear_location);
         btnRefresh = findViewById(R.id.button_refresh);
         tempPayment = findViewById(R.id.temp_payment);
-
+        btnDrawer = findViewById(R.id.main_drawer_button);
+        btnCloseDrawer = findViewById(R.id.drawer_close);
+        drawer = findViewById(R.id.drawer_main);
 
         /* sharedPreferences */
         preferences = getSharedPreferences("Tokens", MODE_PRIVATE);
@@ -130,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        //결제 화면으로 가는 임시 버튼
         tempPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,6 +152,24 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        //왼쪽 상단의 메뉴버튼을 클릭하면 나오는 drawerLayout
+        btnDrawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawer.openDrawer(GravityCompat.START);
+            }
+        });
+
+
+        //drawer에서 닫기 버튼 클릭하면 닫힘
+        btnCloseDrawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawer.closeDrawers();
+            }
+        });
+
+      
         //토큰이 유효할 경우 유저 정보를 표시
         String nickName = preferences.getString("nickname", "");
         if(nickName!="") { //유저 정보가 존재할 경우
@@ -203,6 +234,18 @@ public class MainActivity extends AppCompatActivity {
         item.setEmptyseat(emptySeat);
 
         mList.add(item);
+    }
+
+    //뒤로가기 버튼을 통해 drawer를 닫을 수 있음
+    @Override
+    public void onBackPressed() {
+        if(drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        else {
+            super.onBackPressed();
+        }
+
     }
 
 }
