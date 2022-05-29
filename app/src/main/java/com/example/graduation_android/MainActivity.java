@@ -51,12 +51,18 @@ public class MainActivity extends AppCompatActivity {
     Animation floatingOpen, floatingClose;                       //메인화면 플로팅 버튼 애니메이션
     RelativeLayout mainLayout;                                   //메인화면
 
+<<<<<<< HEAD
 
     private RecyclerView mRecyclerView;                          //cafe list viewer on main page
     private ArrayList<RecyclerViewItem> mList;                   //cafe list
     private RecyclerViewAdapter mRecyclerViewAdapter;            //cafe list viewer adapter
 
     private int isFabOpen = 0;                                   //check whether floating button is expanded
+=======
+    private RecyclerView mRecyclerView;
+    private ArrayList<RecyclerViewItem> mList;
+    private RecyclerViewAdapter mRecyclerViewAdapter;
+>>>>>>> 6b5c9ce430fb6b79d69cad80345c55f3c4f78d4b
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+      
         //토큰이 유효할 경우 유저 정보를 표시
         String nickName = preferences.getString("nickname", "");
         if(nickName!="") { //유저 정보가 존재할 경우
