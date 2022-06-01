@@ -8,20 +8,29 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.BlurMaskFilter;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.AttachedSurfaceControl;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -30,18 +39,30 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
 
     Button btnLogin, btnPayment, btnLogout;
-    LinearLayout btnLocation;
+    LinearLayout btnLocation;                                    //현재 위치
     TextView userProfile, currentLocation;
-    TextView showMore;
+    TextView showMore;                                           //지도로 넘어가기
     SharedPreferences preferences, prefLocation;
-    Button clearLocation;
-    Button btnRefresh, tempPayment;
-    ImageView btnDrawer, btnCloseDrawer;
-    DrawerLayout drawer;
+    Button clearLocation;                                        //(임시) 현재 위치 제거 버튼
+    Button btnRefresh, tempPayment;                              //새로고침 버튼, (임시) 결제창 버튼
+    ImageView btnDrawer, btnCloseDrawer;                         //메인화면 사이드 바
+    DrawerLayout drawer;                                         //메인화면 사이드 바
+    FloatingActionButton fabMain, fabStart, fabLoading, fabDone; //메인화면 플로팅 버튼
+    Animation floatingOpen, floatingClose;                       //메인화면 플로팅 버튼 애니메이션
+    RelativeLayout mainLayout;                                   //메인화면
 
+<<<<<<< HEAD
+
+    private RecyclerView mRecyclerView;                          //cafe list viewer on main page
+    private ArrayList<RecyclerViewItem> mList;                   //cafe list
+    private RecyclerViewAdapter mRecyclerViewAdapter;            //cafe list viewer adapter
+
+    private int isFabOpen = 0;                                   //check whether floating button is expanded
+=======
     private RecyclerView mRecyclerView;
     private ArrayList<RecyclerViewItem> mList;
     private RecyclerViewAdapter mRecyclerViewAdapter;
+>>>>>>> 6b5c9ce430fb6b79d69cad80345c55f3c4f78d4b
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +85,16 @@ public class MainActivity extends AppCompatActivity {
         btnDrawer = findViewById(R.id.main_drawer_button);
         btnCloseDrawer = findViewById(R.id.drawer_close);
         drawer = findViewById(R.id.drawer_main);
+        fabMain = findViewById(R.id.order_status_main);
+        fabStart = findViewById(R.id.order_status_start);
+        fabLoading = findViewById(R.id.order_status_loading);
+        fabDone = findViewById(R.id.order_status_done);
+        mainLayout = findViewById(R.id.main_page);
+        
+        /* 메인화면 플로팅 버튼 */
+        floatingOpen = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.floating_button_open);
+        floatingClose = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.floating_button_close);
+
 
         /* sharedPreferences */
         preferences = getSharedPreferences("Tokens", MODE_PRIVATE);
@@ -96,6 +127,28 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = getIntent();
                 startActivity(intent);
                 overridePendingTransition(0, 0);
+            }
+        });
+
+
+        //floating button 클릭 시
+        fabMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fabStart.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+                fabLoading.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.brown)));
+                fabDone.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+                fabAnim();
+            }
+        });
+
+        //다른 곳 눌러도 floating button 닫히게 설정
+        mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isFabOpen==1) {
+                    fabAnim();
+                }
             }
         });
 
@@ -246,6 +299,25 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
 
+    }
+
+
+    public void fabAnim() {
+        if(isFabOpen==0) {
+            fabStart.startAnimation(floatingOpen);
+            fabLoading.startAnimation(floatingOpen);
+            fabDone.startAnimation(floatingOpen);
+            drawer.setBackgroundColor(getResources().getColor(R.color.gray));
+            isFabOpen = 1;
+
+        }
+        else {
+            fabStart.startAnimation(floatingClose);
+            fabLoading.startAnimation(floatingClose);
+            fabDone.startAnimation(floatingClose);
+            drawer.setBackgroundColor(getResources().getColor(R.color.white_transparent));
+            isFabOpen = 0;
+        }
     }
 
 }
