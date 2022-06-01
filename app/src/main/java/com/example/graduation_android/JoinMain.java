@@ -33,7 +33,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class JoinMain extends AppCompatActivity {
-    private final String URL = "http://10.0.2.2:8001/"; //사용할 URL (localhost)
+    private final String URL = "http://3.38.128.16:8001/"; //사용할 URL
     private final String TAG = "JoinMain";
 
     EditText inputId, inputNick, inputPw, inputPhone;
