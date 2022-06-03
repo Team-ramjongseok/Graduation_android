@@ -31,7 +31,7 @@ public class Payment extends AppCompatActivity {
                 .pay_method(PayMethod.card.name())          //결제수단
                 .name("아메리카노, 에스프레소")                 //주문명
                 .merchant_uid(""+(new Date()).getTime())    //주문번호
-                .amount("11000")                            //결제금액
+                .amount("1")                            //결제금액
                 .buyer_email("gildong@gmail.com")
                 .buyer_name("hong")
                 .buyer_tel("010-4242-4242")
@@ -39,7 +39,8 @@ public class Payment extends AppCompatActivity {
                 .buyer_postcode("01181")
                 .build();
 
-        Iamport.INSTANCE.payment("iamport", null, null, request,
+
+        Iamport.INSTANCE.payment("imp51918627", null, null, request,
                 iamPortApprove -> {
                     //(Optional) chai 결제 시 최종 결제 전 콜백 함수
                     return Unit.INSTANCE;
