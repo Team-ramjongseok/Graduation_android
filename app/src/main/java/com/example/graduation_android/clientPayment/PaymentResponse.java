@@ -3,6 +3,18 @@ package com.example.graduation_android.clientPayment;
 import com.google.gson.annotations.SerializedName;
 
 public class PaymentResponse {
+
+    public PaymentResponse(String order_time, int amount, String name, String location, String order_status) {
+//        this.id = id;
+        this.order_time = order_time;
+        this.amount = amount;
+        this.name = name;
+        this.location = location;
+        this.order_status = order_status;
+    }
+
+//    private int id;
+
     @SerializedName("order_time")
     private String order_time;
 

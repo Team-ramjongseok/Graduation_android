@@ -3,6 +3,10 @@ package com.example.graduation_android.clientPayment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,13 +35,18 @@ public class PaymentMain extends AppCompatActivity {
     private Retrofit retrofit;
     private clientPaymentAPI service;
     private SharedPreferences preferences; //토큰 저장을 위한 sharedPreferences
-    TextView paymentText;
+    ListView listView;
+    MyAdapter myAdapter;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment_main);
 
-        paymentText = findViewById(R.id.PaymentText);
+        /* 초기화 영역 */
+        listView = findViewById(R.id.paymentList);
+        myAdapter = new MyAdapter();
+
+
         preferences = getSharedPreferences("Tokens", MODE_PRIVATE);
         int userId = preferences.getInt("id", -1);
 
@@ -58,11 +67,16 @@ public class PaymentMain extends AppCompatActivity {
 
                 List<PaymentResponse> paymentArrayList = response.body();
 
-                for(PaymentResponse item : paymentArrayList) {
-                    Log.e(TAG, "안뇽? " + item.getOrder_status());
+                for(int i = paymentArrayList.size()-1; i >= 0; i--){
+//                for(PaymentResponse item : paymentArrayList) {
+                    PaymentResponse item = paymentArrayList.get(i);
+                    myAdapter.addItem(new PaymentResponse(item.getOrder_time(),item.getAmount(),item.getName(),item.getLocation(),item.getOrder_status()));
+                    Log.e(TAG, "안뇽? getCount : " + myAdapter.getCount() + " / getOrder : " + myAdapter.getItem(0).getOrder_time() );
+                    listView.setAdapter(myAdapter);
                 }
+//                listView.setAdapter(myAdapter);
                 Toast.makeText(PaymentMain.this, "안뇽?" + paymentArrayList.get(0).getLocation(), Toast.LENGTH_SHORT).show();
-                paymentText.setText(paymentArrayList.get(0).getLocation());
+
 
             }
 
@@ -72,6 +86,45 @@ public class PaymentMain extends AppCompatActivity {
                 Log.e("Payment 가져오는 도중 에러 발생", t.getMessage());
             }
         });
+    }
+
+    class MyAdapter extends BaseAdapter {
+
+        private ArrayList<PaymentResponse> items = new ArrayList<>();
+
+        public void addItem(PaymentResponse item){
+            items.add(item);
+        }
+
+        @Override
+        public int getCount() {
+            return items.size();
+        }
+
+        @Override
+        public PaymentResponse getItem(int position) {
+            return items.get(position);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int position, View convertview, ViewGroup viewGroup) {
+            PaymentItemView view = new PaymentItemView(getApplicationContext());
+
+            PaymentResponse item = items.get(position);
+
+            view.setLocation(item.getLocation());
+            view.setName(item.getName());
+            view.setOrder_status(item.getOrder_status());
+            view.setOrder_time(item.getOrder_time());
+            view.setAmount(item.getAmount());
+
+            return view;
+        }
     }
 
 }
