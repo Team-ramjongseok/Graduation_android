@@ -1,4 +1,4 @@
-package com.example.graduation_android;
+package com.example.graduation_android.clientPayment;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.graduation_android.R;
 import com.iamport.sdk.data.sdk.IamPortRequest;
 import com.iamport.sdk.data.sdk.PG;
 import com.iamport.sdk.data.sdk.PayMethod;
@@ -17,6 +18,7 @@ import kotlin.Unit;
 
 public class Payment extends AppCompatActivity {
     private final String TAG = "Payment";
+    private final String URL = "http://3.38.128.16:8001/"; //사용할 URL
     @Override
     protected void onCreate(Bundle savedBundleInstance) {
         super.onCreate(savedBundleInstance);
@@ -31,12 +33,13 @@ public class Payment extends AppCompatActivity {
                 .pay_method(PayMethod.card.name())          //결제수단
                 .name("아메리카노, 에스프레소")                 //주문명
                 .merchant_uid(""+(new Date()).getTime())    //주문번호
-                .amount("1")                            //결제금액
+                .amount("11000")                            //결제금액
                 .buyer_email("gildong@gmail.com")
                 .buyer_name("hong")
                 .buyer_tel("010-4242-4242")
                 .buyer_addr("서울특별시 강남구 신사동")
                 .buyer_postcode("01181")
+//                .custom_data()
                 .build();
 
 
