@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class PaymentResponse {
 
-    public PaymentResponse(String order_time, int amount, String name, String location, String order_status) {
-//        this.id = id;
+    public PaymentResponse(int id,String order_time, int amount, String name, String location, String order_status) {
+        this.id = id;
         this.order_time = order_time;
         this.amount = amount;
         this.name = name;
@@ -13,7 +13,7 @@ public class PaymentResponse {
         this.order_status = order_status;
     }
 
-//    private int id;
+    private int id;
 
     @SerializedName("order_time")
     private String order_time;
@@ -32,6 +32,10 @@ public class PaymentResponse {
 
     public String getOrder_time() {
         return order_time;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public int getAmount() {

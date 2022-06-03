@@ -70,8 +70,10 @@ public class PaymentMain extends AppCompatActivity {
                 for(int i = paymentArrayList.size()-1; i >= 0; i--){
 //                for(PaymentResponse item : paymentArrayList) {
                     PaymentResponse item = paymentArrayList.get(i);
-                    myAdapter.addItem(new PaymentResponse(item.getOrder_time(),item.getAmount(),item.getName(),item.getLocation(),item.getOrder_status()));
-                    Log.e(TAG, "안뇽? getCount : " + myAdapter.getCount() + " / getOrder : " + myAdapter.getItem(0).getOrder_time() );
+                    String temp = item.getOrder_time();
+                    String order_time = temp.replace("T", " / ").replace("Z", " ");
+                    Log.e(TAG, order_time);
+                    myAdapter.addItem(new PaymentResponse(i+1, order_time,item.getAmount(),item.getName(),item.getLocation(),item.getOrder_status()));
                     listView.setAdapter(myAdapter);
                 }
 //                listView.setAdapter(myAdapter);
@@ -117,6 +119,7 @@ public class PaymentMain extends AppCompatActivity {
 
             PaymentResponse item = items.get(position);
 
+            view.setId(item.getId());
             view.setLocation(item.getLocation());
             view.setName(item.getName());
             view.setOrder_status(item.getOrder_status());

@@ -12,7 +12,7 @@ import com.example.graduation_android.R;
 
 public class PaymentItemView extends LinearLayout {
 
-    TextView order_time, amount, name, location, order_status;
+    TextView id, order_time, amount, name, location, order_status;
 
     public PaymentItemView(Context context) {
         super(context);
@@ -28,11 +28,16 @@ public class PaymentItemView extends LinearLayout {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.payment_item, this, true);
 
+        id = findViewById(R.id.pay_id);
         order_time = findViewById(R.id.pay_order_time);
         amount = findViewById(R.id.pay_amount);
         name = findViewById(R.id.pay_name);
         location = findViewById(R.id.pay_location);
         order_status = findViewById(R.id.pay_order_status);
+    }
+
+    public void setId(int id_val) {
+        id.setText(String.valueOf(id_val));
     }
 
     public void setAmount(int amount_val) {
