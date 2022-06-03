@@ -30,6 +30,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.graduation_android.clientPayment.PaymentMain;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -255,6 +256,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "이용 내역",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), PaymentMain.class);
+                startActivity(intent);
             }
         });
 
