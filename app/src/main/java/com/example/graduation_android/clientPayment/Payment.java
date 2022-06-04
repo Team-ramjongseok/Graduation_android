@@ -1,5 +1,6 @@
 package com.example.graduation_android.clientPayment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ public class Payment extends AppCompatActivity {
     private final String TAG = "Payment";
     private final String URL = "http://3.38.128.16:8001/"; //사용할 URL
 
+    private SharedPreferences preferences; //토큰 저장 공간
     private Retrofit retrofit;
     private clientPaymentAPI service;
 
@@ -42,10 +44,11 @@ public class Payment extends AppCompatActivity {
         setContentView(R.layout.payment_frag);
 
         /* retrofit */
+        Gson gson1 = new GsonBuilder().setLenient().create();
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(URL)
-                .addConverterFactory(GsonConverterFactory.create()) //json 분석하기 위해 추가
+                .addConverterFactory(GsonConverterFactory.create(gson1)) //json 분석하기 위해 추가
                 .build();
         service = retrofit.create(clientPaymentAPI.class);
 
@@ -54,9 +57,13 @@ public class Payment extends AppCompatActivity {
         Iamport.INSTANCE.init(this);
 
 
+        preferences = getSharedPreferences("Tokens", MODE_PRIVATE);
+        int userId = preferences.getInt("id", -1);
+        Log.e(" UserId : ", String.valueOf(userId));
+
         Gson gson = new Gson();
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("userId", 4);
+        jsonObject.addProperty("userId", userId);
         jsonObject.addProperty("cafeId", 1);
         jsonObject.addProperty("order_list", "[1,3]");
         jsonObject.addProperty("memo", "아이스 아메리카노 얼음은 넣어주지 마세요~");
@@ -102,7 +109,7 @@ public class Payment extends AppCompatActivity {
 
                     String responseText = iamPortResponse.toString();
                     Log.d("Iamport_sample", responseText);
-                    Toast.makeText(this, responseText, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, responseText, Toast.LENGTH_SHORT).show();
                     return Unit.INSTANCE;
                 }
         );
