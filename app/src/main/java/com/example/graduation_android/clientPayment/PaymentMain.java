@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.graduation_android.Constants;
 import com.example.graduation_android.LoginServiceApi;
 import com.example.graduation_android.R;
 import com.google.gson.Gson;
@@ -28,8 +29,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 // 유저 id를 사용하여 Payment를 요청하는 코드.
 public class PaymentMain extends AppCompatActivity {
-
-    private final String URL = "http://3.38.128.16:8001/"; //사용할 URL
     private final String TAG = "PaymentMain";
 
     private Retrofit retrofit;
@@ -51,7 +50,7 @@ public class PaymentMain extends AppCompatActivity {
         int userId = preferences.getInt("id", -1);
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
+                .baseUrl(Constants.URL.toString())
                 .addConverterFactory(GsonConverterFactory.create()) //json 분석하기 위해 추가
                 .build();
 

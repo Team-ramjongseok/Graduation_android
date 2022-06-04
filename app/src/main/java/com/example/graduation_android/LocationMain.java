@@ -51,7 +51,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 
 public class LocationMain extends AppCompatActivity {
-    private final String URL = "http://10.0.2.2:8001/"; //사용할 URL (localhost)
     private final String TAG = "LocationMain";
 
     TextView userLat, userLng;
@@ -112,7 +111,7 @@ public class LocationMain extends AppCompatActivity {
 
         /* retrofit2 */
         retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
+                .baseUrl(Constants.URL.toString())
                 .addConverterFactory(GsonConverterFactory.create()) //json 분석하기 위해 추가
                 .build();
         service = retrofit.create(LocationServiceApi.class);

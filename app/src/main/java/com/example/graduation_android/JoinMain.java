@@ -33,7 +33,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class JoinMain extends AppCompatActivity {
-    private final String URL = "http://3.38.128.16:8001/"; //사용할 URL
     private final String TAG = "JoinMain";
 
     EditText inputId, inputNick, inputPw, inputPhone;
@@ -60,7 +59,7 @@ public class JoinMain extends AppCompatActivity {
 
         /* retrofit2 */
         retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
+                .baseUrl(Constants.URL.toString())
                 .addConverterFactory(GsonConverterFactory.create()) //json 분석하기 위해 추가
                 .build();
         service = retrofit.create(LoginServiceApi.class);
