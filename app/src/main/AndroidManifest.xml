@@ -34,7 +34,7 @@
         <activity android:name=".LocationMain" />
         <activity android:name=".CafeDetail"/>
         <activity android:name=".clientPayment.PaymentMain" />
-        <activity android:name=".Payment" />
+        <activity android:name=".clientPayment.Payment" />
     </application>
 
 </manifest>

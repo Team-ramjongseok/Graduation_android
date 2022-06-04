@@ -8,13 +8,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.iamport.sdk.data.sdk.IamPortRequest;
-import com.iamport.sdk.data.sdk.PayMethod;
-import com.iamport.sdk.domain.core.Iamport;
+import com.example.graduation_android.clientPayment.Payment;
 
 import org.jetbrains.annotations.Nullable;
-
-import kotlin.Unit;
 
 public class CafeDetail extends AppCompatActivity {
 
