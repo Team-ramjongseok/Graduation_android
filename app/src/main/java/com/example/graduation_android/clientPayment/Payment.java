@@ -56,9 +56,9 @@ public class Payment extends AppCompatActivity {
 
         Gson gson = new Gson();
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("userId", "anna");
+        jsonObject.addProperty("userId", 4);
         jsonObject.addProperty("cafeId", 1);
-        jsonObject.addProperty("order_list", "[1,2]");
+        jsonObject.addProperty("order_list", "[1,3]");
         jsonObject.addProperty("memo", "아이스 아메리카노 얼음은 넣어주지 마세요~");
         String jsonStr = gson.toJson(jsonObject);
 
@@ -69,7 +69,7 @@ public class Payment extends AppCompatActivity {
                 .pay_method(PayMethod.card.name())          //결제수단
                 .name("아메리카노, 에스프레소")                 //주문명
                 .merchant_uid(""+(new Date()).getTime())    //주문번호
-                .amount("11000")                            //결제금액
+                .amount("9000")                            //결제금액
                 .buyer_email("gildong@gmail.com")
                 .buyer_name("hong")
                 .buyer_tel("010-4242-4242")
@@ -112,9 +112,10 @@ public class Payment extends AppCompatActivity {
         service.postPaymentComplete(data).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Toast.makeText(Payment.this, "결제 성공", Toast.LENGTH_SHORT).show();
+
                 String result = response.body();
-                Log.e("결제 result : ", result);
+                Log.d(" 결제 result : ", result);
+                Toast.makeText(Payment.this, "결제 " + result, Toast.LENGTH_SHORT).show();
             }
 
             @Override
