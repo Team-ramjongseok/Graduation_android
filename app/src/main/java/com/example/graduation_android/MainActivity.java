@@ -1,5 +1,7 @@
 package com.example.graduation_android;
 
+import static android.view.View.GONE;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -42,10 +44,11 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fabMain, fabStart, fabLoading, fabDone; //메인화면 플로팅 버튼
     Animation floatingOpen, floatingClose;                       //메인화면 플로팅 버튼 애니메이션
     RelativeLayout mainLayout;                                   //메인화면
+    TextView cafeListEmptyText;                                  //카페 리스트가 비어있을 시 화면에 나타남
 
 
 
-    private RecyclerView mRecyclerView;                          //cafe list viewer on main page
+    private RecyclerView mRecyclerView;              //cafe list viewer on main page
     private ArrayList<RecyclerViewItem> mList;                   //cafe list
     private RecyclerViewAdapter mRecyclerViewAdapter;            //cafe list viewer adapter
 
@@ -79,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         fabDone = findViewById(R.id.order_status_done);
         mainLayout = findViewById(R.id.main_page);
         paymentManage = findViewById(R.id.payment_manage);
+        cafeListEmptyText = findViewById(R.id.cafe_list_empty_text);
 
         /* 메인화면 플로팅 버튼 */
         floatingOpen = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.floating_button_open);
@@ -215,16 +219,16 @@ public class MainActivity extends AppCompatActivity {
         //토큰이 유효할 경우 유저 정보를 표시
         String nickName = preferences.getString("nickname", "");
         if(nickName!="") { //유저 정보가 존재할 경우
-            btnLogin.setVisibility(View.GONE); //로그인 버튼 없애고
+            btnLogin.setVisibility(GONE); //로그인 버튼 없애고
 
             userProfile.setText(nickName + " 님");
             userProfile.setVisibility(View.VISIBLE);
             btnLogout.setVisibility(View.VISIBLE);
         }
         else { //유저 정보가 존재하지 않을 경우
-            userProfile.setVisibility(View.GONE);
+            userProfile.setVisibility(GONE);
             btnLogin.setVisibility(View.VISIBLE);
-            btnLogout.setVisibility(View.GONE);
+            btnLogout.setVisibility(GONE);
         }
 
 
@@ -237,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
             btnLocation.setClickable(false);
         }
         else {
-            clearLocation.setVisibility(View.GONE);
+            clearLocation.setVisibility(GONE);
             btnLocation.setClickable(true);
         }
 
@@ -255,6 +259,8 @@ public class MainActivity extends AppCompatActivity {
         /* RecyclerView */
         firstInit();
         if(curLocation!="") {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            cafeListEmptyText.setVisibility(GONE);
             for(int i=0; i<5; i++) {
                 String tempCafeName = prefLocation.getString("cafe"+i, "");
                 String tempEmptySeat = prefLocation.getString("seat"+i, "");
@@ -263,9 +269,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         else {
-            for(int i=0; i<5; i++) {
-                addItem("cafe "+(i+1), "빈자리 "+i);
-            }
+            mRecyclerView.setVisibility(View.INVISIBLE);
+            cafeListEmptyText.setVisibility(View.VISIBLE);
         }
 
         mRecyclerViewAdapter = new RecyclerViewAdapter(mList);

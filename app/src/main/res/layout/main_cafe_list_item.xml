@@ -40,6 +40,4 @@
         app:layout_constraintBottom_toBottomOf="@id/cafe_name_item" />
 
 
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
