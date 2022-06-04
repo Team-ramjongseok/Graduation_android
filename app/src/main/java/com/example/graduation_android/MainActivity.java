@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     Animation floatingOpen, floatingClose;                       //메인화면 플로팅 버튼 애니메이션
     RelativeLayout mainLayout;                                   //메인화면
 
-
+    //hello
 
     private RecyclerView mRecyclerView;                          //cafe list viewer on main page
     private ArrayList<RecyclerViewItem> mList;                   //cafe list
