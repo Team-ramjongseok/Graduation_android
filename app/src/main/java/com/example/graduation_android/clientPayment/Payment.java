@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.graduation_android.Constants;
 import com.example.graduation_android.LoginServiceApi;
 import com.example.graduation_android.R;
 import com.google.gson.Gson;
@@ -32,7 +33,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Payment extends AppCompatActivity {
     private final String TAG = "Payment";
-    private final String URL = "http://3.38.128.16:8001/"; //사용할 URL
 
     private SharedPreferences preferences; //토큰 저장 공간
     private Retrofit retrofit;
@@ -47,7 +47,7 @@ public class Payment extends AppCompatActivity {
         Gson gson1 = new GsonBuilder().setLenient().create();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
+                .baseUrl(Constants.URL.toString())
                 .addConverterFactory(GsonConverterFactory.create(gson1)) //json 분석하기 위해 추가
                 .build();
         service = retrofit.create(clientPaymentAPI.class);
