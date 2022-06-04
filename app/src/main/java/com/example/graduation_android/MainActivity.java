@@ -30,6 +30,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.graduation_android.clientPayment.PaymentMain;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
 
     Button btnLogin, btnPayment, btnLogout;
-    LinearLayout btnLocation;                                    //현재 위치
+    LinearLayout btnLocation, paymentManage;                                    //현재 위치
     TextView userProfile, currentLocation;
     TextView showMore;                                           //지도로 넘어가기
     SharedPreferences preferences, prefLocation;
@@ -86,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
         fabLoading = findViewById(R.id.order_status_loading);
         fabDone = findViewById(R.id.order_status_done);
         mainLayout = findViewById(R.id.main_page);
-        
+        paymentManage = findViewById(R.id.payment_manage);
+
         /* 메인화면 플로팅 버튼 */
         floatingOpen = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.floating_button_open);
         floatingClose = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.floating_button_close);
@@ -248,6 +250,16 @@ public class MainActivity extends AppCompatActivity {
             btnLocation.setClickable(true);
         }
 
+
+        // 이용 내역 보여주기.
+        paymentManage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "이용 내역",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), PaymentMain.class);
+                startActivity(intent);
+            }
+        });
 
         /* RecyclerView */
         firstInit();

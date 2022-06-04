@@ -92,6 +92,7 @@
             android:elevation="10dp">
 
             <LinearLayout
+                android:id="@+id/payment_manage"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_weight="1"
@@ -100,17 +101,17 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
-                    android:src="@drawable/list"
-                    android:layout_marginLeft="15dp"/>
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/list" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center"
                     android:text="이용 내역"
                     android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:gravity="center"
-                    android:layout_marginLeft="5dp"/>
+                    android:textSize="15dp" />
             </LinearLayout>
 
             <View
@@ -127,17 +128,17 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
-                    android:src="@drawable/list"
-                    android:layout_marginLeft="15dp"/>
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/list" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center"
                     android:text="결제 수단 관리"
                     android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:gravity="center"
-                    android:layout_marginLeft="5dp"/>
+                    android:textSize="15dp" />
             </LinearLayout>
 
             <View

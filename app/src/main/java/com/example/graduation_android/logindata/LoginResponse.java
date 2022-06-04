@@ -8,6 +8,11 @@ import java.util.Date;
     로그인 성공하면 성공했다는 메세지와 로그인한 email을 받음 */
 
 public class LoginResponse {
+
+
+    @SerializedName("id")
+    private int id;
+
     @SerializedName("message")
     private String message;
 
@@ -38,6 +43,7 @@ public class LoginResponse {
         return email;
     }
 
+    public int getid() { return id; }
 
     public String getNickname() {
         return nickname;

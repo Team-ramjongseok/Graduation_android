@@ -186,6 +186,7 @@ public class LoginMain extends AppCompatActivity {
                         editor = preferences.edit();
                         editor.putString("accessToken", result.getAccessToken());
                         editor.putString("refreshToken", result.getRefreshToken());
+                        editor.putInt("id", result.getid());
                         editor.putString("nickname", result.getNickname());
                         editor.putInt("expiresIn", result.getExpiresIn());
 
@@ -281,6 +282,7 @@ public class LoginMain extends AppCompatActivity {
         Log.e(TAG, "saved token: "+preferences.getString("accessToken", ""));
         Log.e(TAG, "saved refresh token: "+preferences.getString("refreshToken", ""));
         Log.e(TAG, "saved nick: "+preferences.getString("nickname", ""));
+        Log.e(TAG, "saved id: "+preferences.getInt("id", 0));
     }
 
 }
