@@ -114,6 +114,19 @@
             android:layout_below="@id/main_text_and_location"/>
 
         <TextView
+            android:id="@+id/cafe_list_empty_text"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_margin="5dp"
+            android:text="우측 상단의 위치 찾기를 클릭해 주세요."
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_below="@id/main_text_and_location"
+            android:background="@drawable/login_button"
+            android:visibility="gone"/>
+
+        <TextView
             android:id="@+id/main_show_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

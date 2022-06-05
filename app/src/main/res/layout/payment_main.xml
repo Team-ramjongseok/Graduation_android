@@ -2,15 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-
-    >
+    android:orientation="vertical">
 
 
     <ListView
-
         android:id="@+id/paymentList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
+
+    <TextView
+        android:id="@+id/paymentList_empty_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="아직 이용한 적이 없어요!"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:gravity="center"
+        android:visibility="gone" />
+
 </LinearLayout>

@@ -70,7 +70,7 @@ public class LocationMain extends AppCompatActivity {
         userLat = findViewById(R.id.user_lat_txt);
         userLng = findViewById(R.id.user_lng_txt);
         getLocationBtn = findViewById(R.id.location_btn_temp);
-        for(int i=0; i<5; i++) { //우선 5개만 받아보자
+        for(int i=0; i<5; i++) { //메인에는 5개만 노출되도록
             int lats = getResources().getIdentifier("get_lat"+(i+1), "id", getPackageName());
             int lngs = getResources().getIdentifier("get_lng"+(i+1), "id", getPackageName());
 
@@ -105,8 +105,16 @@ public class LocationMain extends AppCompatActivity {
 
         /* get location if permission is granted */
         Location currentLocation = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        double currentLat = currentLocation.getLatitude();
-        double currentLng = currentLocation.getLongitude();
+//        double currentLat = currentLocation.getLatitude();
+//        double currentLng = currentLocation.getLongitude();
+
+
+        /* 건입 위경도 정보
+        가상머신에서는 위치가 미국으로 떠서 거리계산이 잘 안돼서
+        테스트용으로 하드하게 박아놓은 겁니다
+        테스트 할 때만 사용하고 실제 기기에서 위치를 가져올때는 바로 위를 사용하면 됨 */
+        double currentLat = 37.540149;
+        double currentLng = 129.070468;
 
 
         /* retrofit2 */

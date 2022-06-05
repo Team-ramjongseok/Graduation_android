@@ -36,6 +36,7 @@ public class PaymentMain extends AppCompatActivity {
     private SharedPreferences preferences; //토큰 저장을 위한 sharedPreferences
     ListView listView;
     MyAdapter myAdapter;
+    TextView emptyText;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +44,8 @@ public class PaymentMain extends AppCompatActivity {
 
         /* 초기화 영역 */
         listView = findViewById(R.id.paymentList);
+        emptyText = findViewById(R.id.paymentList_empty_text);
+
         myAdapter = new MyAdapter();
 
 
@@ -62,22 +65,28 @@ public class PaymentMain extends AppCompatActivity {
         service.getUserPayment(userId).enqueue(new Callback<List<PaymentResponse>>() {
             @Override
             public void onResponse(Call<List<PaymentResponse>> call, Response<List<PaymentResponse>> response) { // 응답 성공시
-                
 
                 List<PaymentResponse> paymentArrayList = response.body();
 
-                for(int i = paymentArrayList.size()-1; i >= 0; i--){
-//                for(PaymentResponse item : paymentArrayList) {
-                    PaymentResponse item = paymentArrayList.get(i);
-                    String temp = item.getOrder_time();
-                    String order_time = temp.replace("T", " / ").replace("Z", " ");
-                    Log.e(TAG, order_time);
-                    myAdapter.addItem(new PaymentResponse(i+1, order_time,item.getAmount(),item.getName(),item.getLocation(),item.getOrder_status()));
-                    listView.setAdapter(myAdapter);
+                //list가 비어있을 경우 화면에 나타남
+                if(paymentArrayList.size()==0) {
+                    listView.setEmptyView(emptyText);
                 }
-//                listView.setAdapter(myAdapter);
-                Toast.makeText(PaymentMain.this, "안뇽?" + paymentArrayList.get(0).getLocation(), Toast.LENGTH_SHORT).show();
 
+                else {
+                    for(int i = paymentArrayList.size()-1; i >= 0; i--) {
+    //                for(PaymentResponse item : paymentArrayList) {
+                            PaymentResponse item = paymentArrayList.get(i);
+                            String temp = item.getOrder_time();
+                            String order_time = temp.replace("T", " / ").replace("Z", " ");
+                            Log.e(TAG, order_time);
+                            myAdapter.addItem(new PaymentResponse(i+1, order_time,item.getAmount(),item.getName(),item.getLocation(),item.getOrder_status()));
+                            listView.setAdapter(myAdapter);
+                        }
+    //                listView.setAdapter(myAdapter);
+                        Toast.makeText(PaymentMain.this, "안뇽?" + paymentArrayList.get(0).getLocation(), Toast.LENGTH_SHORT).show();
+
+                }
 
             }
 
