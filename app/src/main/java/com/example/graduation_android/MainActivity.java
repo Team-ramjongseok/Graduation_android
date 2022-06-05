@@ -169,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.commit();
                 Toast.makeText(getApplicationContext(), "logout success", Toast.LENGTH_SHORT).show();
 
+
                 //화면을 새로고침
                 finish();
                 overridePendingTransition(0, 0); //새로고침 시에 화면 전환 효과 삭제
