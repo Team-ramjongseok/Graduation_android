@@ -248,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), "위치 받아오기 성공", Toast.LENGTH_SHORT).show();
 
+
             }
         });
 
@@ -431,6 +432,7 @@ public class MainActivity extends AppCompatActivity {
     // json 파싱
     public void regionJsonParser(StringBuffer stringBuffer) {
         try {
+            SharedPreferences.Editor editor = prefLocation.edit();
             StringBuffer userRegion =  new StringBuffer();
             JsonParser jsonParser = new JsonParser();
             JsonObject jsonObject = (JsonObject)jsonParser.parse(stringBuffer.toString());
@@ -456,9 +458,10 @@ public class MainActivity extends AppCompatActivity {
             String currentUserRegion = splitedUserRegion[2] + " " + splitedUserRegion[3];
 
             /* save user location with sharedPreferences */
-            editor = preferences.edit();
             editor.putString("userLocation", currentUserRegion);
             editor.commit();
+
+
 
         }catch (Exception e) {
             e.printStackTrace();
@@ -469,6 +472,7 @@ public class MainActivity extends AppCompatActivity {
         service.userLocation(data).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
+                SharedPreferences.Editor editor = prefLocation.edit();
                 Object result = response.body();
                 JsonParser jsonParser = new JsonParser();
                 JsonArray jsonArray = (JsonArray) jsonParser.parse(new Gson().toJson(result));
@@ -479,7 +483,6 @@ public class MainActivity extends AppCompatActivity {
                     JsonObject jsonCafeObject = (JsonObject) jsonResult.get(i);
                     Log.e(TAG, "received json: "+ jsonCafeObject);
 
-                    editor = preferences.edit();
                     editor.putString("cafe"+i, jsonCafeObject.get("name").getAsString());
                     editor.putString("seat"+i, jsonCafeObject.get("seat_empty").getAsString());
                     editor.commit();

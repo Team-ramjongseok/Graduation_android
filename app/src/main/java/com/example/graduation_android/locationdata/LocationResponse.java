@@ -1,6 +1,5 @@
 package com.example.graduation_android.locationdata;
 
-import com.example.graduation_android.LocationMain;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
