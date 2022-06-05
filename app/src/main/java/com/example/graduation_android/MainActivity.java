@@ -139,6 +139,8 @@ public class MainActivity extends AppCompatActivity {
         Location currentLocationInfo = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         double currentLat = currentLocationInfo.getLatitude();
         double currentLng = currentLocationInfo.getLongitude();
+        String nickName = preferences.getString("nickname", "");
+        Log.e(TAG, "received string: "+nickName);
 
         /* retrofit2 */
         retrofit = new Retrofit.Builder()
@@ -244,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 }).start();
-                sendLocation(new LocationData(currentLat, currentLng));
+                sendLocation(new LocationData(currentLat, currentLng,nickName));
 
                 Toast.makeText(getApplicationContext(), "위치 받아오기 성공", Toast.LENGTH_SHORT).show();
 
@@ -281,7 +283,8 @@ public class MainActivity extends AppCompatActivity {
 
       
         //토큰이 유효할 경우 유저 정보를 표시
-        String nickName = preferences.getString("nickname", "");
+
+
         if(nickName!="") { //유저 정보가 존재할 경우
             btnLogin.setVisibility(View.GONE); //로그인 버튼 없애고
 

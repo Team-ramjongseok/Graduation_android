@@ -9,10 +9,14 @@ public class LocationData {
 
     @SerializedName("longitude")
     private Double longitude;
+    @SerializedName("nickName")
+    private String nickName;
 
 
-    public LocationData(Double latitude, Double longitude) {
+    public LocationData(Double latitude, Double longitude, String nickName) {
         this.latitude = latitude;
         this.longitude = longitude;
+        this.nickName = nickName;
+
     }
 }
