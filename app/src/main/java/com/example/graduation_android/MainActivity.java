@@ -143,7 +143,8 @@ public class MainActivity extends AppCompatActivity {
         double currentLat = currentLocationInfo.getLatitude();
         double currentLng = currentLocationInfo.getLongitude();
         String nickName = preferences.getString("nickname", "");
-        Log.e(TAG, "received string: "+nickName);
+        int id = preferences.getInt("id", -1);
+        Log.e(TAG, "received string: "+nickName+id);
 
         /* retrofit2 */
         retrofit = new Retrofit.Builder()
@@ -251,6 +252,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }).start();
                 sendLocation(new LocationData(currentLat, currentLng,nickName));
+
+
 
                 Toast.makeText(getApplicationContext(), "위치 받아오기 성공", Toast.LENGTH_SHORT).show();
 
