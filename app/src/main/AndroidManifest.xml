@@ -31,7 +31,6 @@
         </activity>
         <activity android:name=".LoginMain"/>
         <activity android:name=".JoinMain" />
-        <activity android:name=".LocationMain" />
         <activity android:name=".CafeDetail"/>
         <activity android:name=".clientPayment.PaymentMain" />
         <activity android:name=".clientPayment.Payment" />
