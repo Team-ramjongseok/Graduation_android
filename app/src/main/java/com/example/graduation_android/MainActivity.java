@@ -143,8 +143,6 @@ public class MainActivity extends AppCompatActivity {
         double currentLat = currentLocationInfo.getLatitude();
         double currentLng = currentLocationInfo.getLongitude();
         String nickName = preferences.getString("nickname", "");
-        int id = preferences.getInt("id", -1);
-        Log.e(TAG, "received string: "+nickName+id);
 
         /* retrofit2 */
         retrofit = new Retrofit.Builder()
