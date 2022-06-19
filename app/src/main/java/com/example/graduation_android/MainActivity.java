@@ -55,22 +55,22 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
 
     Button btnLogin, btnPayment, btnLogout;
-    LinearLayout btnLocation, paymentManage;                                    //현재 위치
+    LinearLayout btnLocation, paymentManage;                     //현재 위치
     TextView userProfile, currentLocation;
     TextView showMore;                                           //지도로 넘어가기
     SharedPreferences preferences, prefLocation;
-    Button clearLocation;                                        //(임시) 현재 위치 제거 버튼
-    Button btnRefresh, tempPayment;                              //새로고침 버튼, (임시) 결제창 버튼
+    Button clearLocation, tempPayment;                           //(임시) 현재 위치 제거 버튼, (임시) 결제창 버튼
     ImageView btnDrawer, btnCloseDrawer;                         //메인화면 사이드 바
     DrawerLayout drawer;                                         //메인화면 사이드 바
     FloatingActionButton fabMain, fabStart, fabLoading, fabDone; //메인화면 플로팅 버튼
     Animation floatingOpen, floatingClose;                       //메인화면 플로팅 버튼 애니메이션
     RelativeLayout mainLayout;                                   //메인화면
     TextView cafeListEmptyText;                                  //카페 리스트가 비어있을 시 화면에 나타남
+    TextView drawerUserName;
 
 
 
-    private RecyclerView mRecyclerView;              //cafe list viewer on main page
+    private RecyclerView mRecyclerView;                          //cafe list viewer on main page
     private ArrayList<RecyclerViewItem> mList;                   //cafe list
     private RecyclerViewAdapter mRecyclerViewAdapter;            //cafe list viewer adapter
 
@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.button_logout);
         currentLocation = findViewById(R.id.main_user_location);
         clearLocation = findViewById(R.id.button_clear_location);
-        btnRefresh = findViewById(R.id.button_refresh);
         tempPayment = findViewById(R.id.temp_payment);
         btnDrawer = findViewById(R.id.main_drawer_button);
         btnCloseDrawer = findViewById(R.id.drawer_close);
@@ -108,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         mainLayout = findViewById(R.id.main_page);
         paymentManage = findViewById(R.id.payment_manage);
         cafeListEmptyText = findViewById(R.id.cafe_list_empty_text);
+        drawerUserName = findViewById(R.id.drawer_user_name);
 
         /* 메인화면 플로팅 버튼 */
         floatingOpen = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.floating_button_open);
@@ -171,13 +171,8 @@ public class MainActivity extends AppCompatActivity {
                 editor.commit();
                 Toast.makeText(getApplicationContext(), "logout success", Toast.LENGTH_SHORT).show();
 
-
                 //화면을 새로고침
-                finish();
-                overridePendingTransition(0, 0); //새로고침 시에 화면 전환 효과 삭제
-                Intent intent = getIntent();
-                startActivity(intent);
-                overridePendingTransition(0, 0);
+                refreshMain();
             }
         });
 
@@ -214,27 +209,9 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "location cleared", Toast.LENGTH_SHORT).show();
 
                 //화면을 새로고침
-                finish();
-                overridePendingTransition(0, 0); //새로고침 시에 화면 전환 효과 삭제
-                Intent intent = getIntent();
-                startActivity(intent);
-                overridePendingTransition(0, 0);
+                refreshMain();
             }
         });
-
-        //리프레시 버튼
-        btnRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //화면을 새로고침
-                finish();
-                overridePendingTransition(0, 0); //새로고침 시에 화면 전환 효과 삭제
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                overridePendingTransition(0, 0);
-            }
-        });
-
 
         //현재 위치를 조회하는 버튼
         btnLocation.setOnClickListener(new View.OnClickListener() {
@@ -246,16 +223,14 @@ public class MainActivity extends AppCompatActivity {
                         StringBuffer coord = new StringBuffer();
                         coord.append(currentLng+","+currentLat);
                         requestGeocode(); // reverse geocoding start
-
+                        refreshMain();
                     }
                 }).start();
+
+
                 sendLocation(new LocationData(currentLat, currentLng,nickName));
 
-
-
                 Toast.makeText(getApplicationContext(), "위치 받아오기 성공", Toast.LENGTH_SHORT).show();
-
-
             }
         });
 
@@ -288,17 +263,17 @@ public class MainActivity extends AppCompatActivity {
 
       
         //토큰이 유효할 경우 유저 정보를 표시
-
-
         if(nickName!="") { //유저 정보가 존재할 경우
             btnLogin.setVisibility(View.GONE); //로그인 버튼 없애고
 
             userProfile.setText(nickName + " 님");
+            drawerUserName.setText(nickName);
             userProfile.setVisibility(View.VISIBLE);
             btnLogout.setVisibility(View.VISIBLE);
         }
         else { //유저 정보가 존재하지 않을 경우
             userProfile.setVisibility(View.GONE);
+            drawerUserName.setText("로그인 해주세요");
             btnLogin.setVisibility(View.VISIBLE);
             btnLogout.setVisibility(View.GONE);
         }
@@ -367,6 +342,15 @@ public class MainActivity extends AppCompatActivity {
         mList.add(item);
     }
 
+    //메인화면 새로고침
+    public void refreshMain() {
+        finish();
+        overridePendingTransition(0, 0); //새로고침 시에 화면 전환 효과 삭제
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        overridePendingTransition(0, 0);
+    }
+
     //뒤로가기 버튼을 통해 drawer를 닫을 수 있음
     @Override
     public void onBackPressed() {
@@ -376,7 +360,6 @@ public class MainActivity extends AppCompatActivity {
         else {
             super.onBackPressed();
         }
-
     }
 
     //floating button animation
@@ -397,6 +380,7 @@ public class MainActivity extends AppCompatActivity {
             isFabOpen = 0;
         }
     }
+
     // reverse Geocoding
     public void requestGeocode() {
         StringBuffer coord = new StringBuffer();
