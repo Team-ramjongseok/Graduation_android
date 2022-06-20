@@ -18,20 +18,15 @@ public class DrawerMain extends AppCompatActivity {
     ImageView btnDrawerClose;
     NavigationView drawer;
     LinearLayout paymentManage;
-    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedBundleInstance) {
         super.onCreate(savedBundleInstance);
         setContentView(R.layout.drawer);
-        
-
 
         btnDrawerClose = findViewById(R.id.drawer_close);
         drawer = findViewById(R.id.drawer_layout);
-
         paymentManage = findViewById(R.id.payment_manage);
-
 
 
         paymentManage.setOnClickListener(new View.OnClickListener() {

@@ -160,18 +160,6 @@
             android:layout_below="@id/button_logout"/>
 
 
-
-        <Button
-            android:id="@+id/button_refresh"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="R"
-            android:layout_gravity="right"
-            android:layout_marginRight="20dp"
-            android:layout_below="@id/main_show_more"
-            android:layout_alignParentRight="true"/>
-
-
         <Button
             android:id="@+id/temp_payment"
             android:layout_width="110dp"
