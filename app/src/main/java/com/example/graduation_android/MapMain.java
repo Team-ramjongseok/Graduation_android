@@ -62,10 +62,11 @@ public class MapMain extends AppCompatActivity implements OnMapReadyCallback {
         for(int i=0; i<5; i++) {
             if(i==0 || i==3 || i==4) {
                 LatLng cafeLocation = new LatLng(Double.parseDouble(preferences.getString("lat"+i, "")), Double.parseDouble(preferences.getString("lng"+i, "")));
+                double emptySeat = Double.parseDouble(preferences.getString("seat"+i, ""));
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(cafeLocation);
                 markerOptions.title("cafe "+(i+1));
-                markerOptions.snippet("empty seat: ");
+                markerOptions.snippet("empty "+emptySeat);
                 gMap.addMarker(markerOptions);
             }
         }
