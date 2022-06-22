@@ -261,6 +261,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        //더보기 클릭시 맵 화면으로 이동
+        showMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MapMain.class);
+                startActivity(intent);
+            }
+        });
+
       
         //토큰이 유효할 경우 유저 정보를 표시
         if(nickName!="") { //유저 정보가 존재할 경우
@@ -472,12 +482,14 @@ public class MainActivity extends AppCompatActivity {
                 JsonObject jsonObject = (JsonObject) jsonArray.get(0);
                 JsonArray jsonResult = jsonObject.getAsJsonArray("distanceResult");
 
-                for (int i = 0; i< jsonResult.size(); i++){
+                for (int i=0; i<5; i++){
                     JsonObject jsonCafeObject = (JsonObject) jsonResult.get(i);
                     Log.e(TAG, "received json: "+ jsonCafeObject);
 
                     editor.putString("cafe"+i, jsonCafeObject.get("name").getAsString());
                     editor.putString("seat"+i, jsonCafeObject.get("seat_empty").getAsString());
+                    editor.putString("lat"+i, jsonCafeObject.get("latitude").getAsString());
+                    editor.putString("lng"+i, jsonCafeObject.get("longitude").getAsString());
                     editor.commit();
                 }
 
