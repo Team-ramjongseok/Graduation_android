@@ -18,10 +18,10 @@
         android:usesCleartextTraffic="true">
 
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCpRtXvL_0HZJIbCKhAwOtKbri6BD30GMM"/> <!-- google API key -->
+            android:value="${MAPS_API_KEY}"/>
 
-<!--        <meta-data android:name="com.google.android.gms.version"-->
-<!--            android:value="@integer/google_play_services_version"/>-->
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
 
 <!--        <uses-library android:name="org.apache.http.legacy"-->
 <!--            android:required="false"/>-->

@@ -23,7 +23,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapMain extends AppCompatActivity implements OnMapReadyCallback {
     private final String TAG = "MapMain";
 
-    private GoogleMap gMap;
     private SharedPreferences preferences;
     ImageView goBack;
 
@@ -55,30 +54,30 @@ public class MapMain extends AppCompatActivity implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-        gMap = googleMap; //구글 맵 객체 호출
+        MarkerOptions markerOptions = new MarkerOptions();
 
-        LatLng GunIp = new LatLng(37.5401, 127.0704); //test용 건입 계정
+        LatLng GunIp = new LatLng(37.5401, 127.0704); //test용 건입 위치
+
+        markerOptions.position(GunIp);
+        markerOptions.title("건입");
+        markerOptions.snippet("test용 건입 마커");
+        googleMap.addMarker(markerOptions);
+
 
         for(int i=0; i<5; i++) {
             if(i==0 || i==3 || i==4) {
                 LatLng cafeLocation = new LatLng(Double.parseDouble(preferences.getString("lat"+i, "")), Double.parseDouble(preferences.getString("lng"+i, "")));
                 double emptySeat = Double.parseDouble(preferences.getString("seat"+i, ""));
-                MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(cafeLocation);
                 markerOptions.title("cafe "+(i+1));
                 markerOptions.snippet("empty "+emptySeat);
-                gMap.addMarker(markerOptions);
+                googleMap.addMarker(markerOptions);
             }
         }
 
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(GunIp);
-        markerOptions.title("건입");
-        markerOptions.snippet("test용 건입 마커");
-        gMap.addMarker(markerOptions);
 
-        gMap.moveCamera(CameraUpdateFactory.newLatLng(GunIp));
-        gMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(GunIp));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
     }
 }
