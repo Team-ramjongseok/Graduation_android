@@ -160,14 +160,6 @@
             android:layout_below="@id/button_logout"/>
 
 
-        <Button
-            android:id="@+id/temp_payment"
-            android:layout_width="110dp"
-            android:layout_height="50dp"
-            android:text="payment"
-            android:layout_gravity="center"
-            android:layout_below="@id/button_clear_location"/>
-
         <!-- floating button -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/order_status_start"

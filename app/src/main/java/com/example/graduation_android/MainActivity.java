@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     TextView userProfile, currentLocation;
     TextView showMore;                                           //지도로 넘어가기
     SharedPreferences preferences, prefLocation;
-    Button clearLocation, tempPayment;                           //(임시) 현재 위치 제거 버튼, (임시) 결제창 버튼
+    Button clearLocation;                                        //(임시) 현재 위치 제거 버튼
     ImageView btnDrawer, btnCloseDrawer;                         //메인화면 사이드 바
     DrawerLayout drawer;                                         //메인화면 사이드 바
     FloatingActionButton fabMain, fabStart, fabLoading, fabDone; //메인화면 플로팅 버튼
@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.button_logout);
         currentLocation = findViewById(R.id.main_user_location);
         clearLocation = findViewById(R.id.button_clear_location);
-        tempPayment = findViewById(R.id.temp_payment);
         btnDrawer = findViewById(R.id.main_drawer_button);
         btnCloseDrawer = findViewById(R.id.drawer_close);
         drawer = findViewById(R.id.drawer_main);
@@ -234,15 +233,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //결제 화면으로 가는 임시 버튼
-        tempPayment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Payment.class);
-                startActivity(intent);
-            }
-        });
-
 
         //왼쪽 상단의 메뉴버튼을 클릭하면 나오는 drawerLayout
         btnDrawer.setOnClickListener(new View.OnClickListener() {
@@ -303,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        // 이용 내역 보여주기.
+        // 이용 내역 보여주기
         paymentManage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -330,7 +320,7 @@ public class MainActivity extends AppCompatActivity {
             cafeListEmptyText.setVisibility(View.VISIBLE);
         }
 
-        mRecyclerViewAdapter = new RecyclerViewAdapter(mList);
+        mRecyclerViewAdapter = new RecyclerViewAdapter(this, mList);
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)); //가로 방향
@@ -486,6 +476,7 @@ public class MainActivity extends AppCompatActivity {
                     JsonObject jsonCafeObject = (JsonObject) jsonResult.get(i);
                     Log.e(TAG, "received json: "+ jsonCafeObject);
 
+                    editor.putInt("id"+i, jsonCafeObject.get("id").getAsInt());
                     editor.putString("cafe"+i, jsonCafeObject.get("name").getAsString());
                     editor.putString("seat"+i, jsonCafeObject.get("seat_empty").getAsString());
                     editor.putString("lat"+i, jsonCafeObject.get("latitude").getAsString());
