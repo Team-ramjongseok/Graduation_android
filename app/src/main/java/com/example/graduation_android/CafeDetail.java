@@ -128,7 +128,6 @@ public class CafeDetail extends AppCompatActivity {
                 Log.e("메뉴 긁어오기 에러 발생", t.getMessage());
             }
         });
-
     }
 
     class MenuListAdapter extends BaseAdapter {
