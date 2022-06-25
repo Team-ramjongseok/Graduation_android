@@ -75,7 +75,7 @@ public class LoginMain extends AppCompatActivity {
         joinBtn.setText(underlineTxt);
 
 
-        /* 토큰 갱신을 위한 intercepter */
+        /* 토큰 갱신을 위한 interceptor */
         interceptor = new Interceptor() {
             @NonNull
             @Override

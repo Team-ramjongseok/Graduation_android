@@ -1,6 +1,7 @@
 package com.example.graduation_android;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+    private Context mContext;
+    private ArrayList<RecyclerViewItem> mList;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView cafeImgItem;
@@ -23,6 +26,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Context context = view.getContext();
+                    int pos = getAdapterPosition();
+
+                    Intent intent = new Intent(context, CafeDetail.class);
+                    intent.putExtra("cafeName", mList.get(pos).getCafeName());
+                    intent.putExtra("emptySeat", mList.get(pos).getEmptyseat());
+
+                    mContext.startActivity(intent);
+                }
+            });
+
             cafeImgItem = (ImageView) itemView.findViewById(R.id.img_item);
             cafeImgItem.setClipToOutline(true); //둥근 테두리
             cafeNameItem = (TextView) itemView.findViewById(R.id.cafe_name_item);
@@ -30,8 +47,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    private ArrayList<RecyclerViewItem> mList = null;
-    public RecyclerViewAdapter(ArrayList<RecyclerViewItem> mList) {
+    public RecyclerViewAdapter(Context context, ArrayList<RecyclerViewItem> mList) {
+        this.mContext = context;
         this.mList = mList;
     }
     

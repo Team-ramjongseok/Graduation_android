@@ -9,7 +9,6 @@ import java.util.Date;
 
 public class LoginResponse {
 
-
     @SerializedName("id")
     private int id;
 

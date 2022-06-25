@@ -72,7 +72,6 @@ public class PaymentMain extends AppCompatActivity {
                 if(paymentArrayList.size()==0) {
                     listView.setEmptyView(emptyText);
                 }
-
                 else {
                     for(int i = paymentArrayList.size()-1; i >= 0; i--) {
     //                for(PaymentResponse item : paymentArrayList) {
