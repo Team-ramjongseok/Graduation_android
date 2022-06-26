@@ -45,6 +45,9 @@ public class Payment extends AppCompatActivity {
         super.onCreate(savedBundleInstance);
         setContentView(R.layout.payment_frag);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
         /* retrofit */
         Gson gson1 = new GsonBuilder().setLenient().create();
 

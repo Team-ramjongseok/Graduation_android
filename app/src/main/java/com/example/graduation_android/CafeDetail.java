@@ -127,7 +127,7 @@ public class CafeDetail extends AppCompatActivity {
                     List<CafeMenuResponse> menuList = response.body();
 
                     Log.d(TAG, "test receive: "+menuList);
-                    Toast.makeText(getApplicationContext(), "메뉴 가져오기 성공", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "메뉴 가져오기 성공", Toast.LENGTH_SHORT).show();
 
                     menuListSize = menuList.size();
 
