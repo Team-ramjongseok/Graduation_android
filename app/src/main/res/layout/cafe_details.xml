@@ -5,25 +5,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
+<!--    <LinearLayout-->
+<!--        android:id="@+id/cafe_details_images"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="200dp"-->
+<!--        android:background="@color/teal_200">-->
+
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:text="사진들 들어갈 공간"-->
+<!--            android:gravity="center"/>-->
+
+<!--    </LinearLayout>-->
+
     <LinearLayout
-        android:id="@+id/cafe_details_images"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@color/teal_200">
+        android:orientation="horizontal">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="사진들 들어갈 공간"
-            android:gravity="center"/>
+            android:background="@drawable/cafe_sample"
+            android:layout_weight="1"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/cafe_img_1"
+                android:scaleType="centerCrop"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/cafe_img_2"
+                android:scaleType="centerCrop"
+                android:layout_weight="1"/>
+
+
+        </LinearLayout>
+
 
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/teal_200"
         android:layout_marginTop="30dp"
         android:orientation="horizontal">
 
@@ -45,7 +81,7 @@
             android:text="빈자리 5"
             android:layout_weight="3"
             android:gravity="center"
-            android:textSize="17dp"
+            android:textSize="15dp"
             android:textColor="@color/black"
             android:layout_marginRight="20dp" />
 
@@ -105,7 +141,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginHorizontal="20dp"
         tools:listitem="@layout/menu_list_item"
-        android:background="@drawable/login_button"
+        android:background="@drawable/menu_list_bg"
+        android:choiceMode="multipleChoice"
         />
 
 
@@ -115,7 +152,7 @@
         android:layout_height="50dp"
         android:layout_marginHorizontal="30dp"
         android:text="주문하기"
-        android:textSize="20dp"/>
+        android:textSize="20dp" />
 
 
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.example.graduation_android.clientPayment;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,6 +54,10 @@ public class Payment extends AppCompatActivity {
         service = retrofit.create(clientPaymentAPI.class);
 
 
+        Intent receivedIntent = getIntent();
+        int cafeId = receivedIntent.getIntExtra("cafeId", -1);
+        Log.d(TAG, "cafeId: "+cafeId);
+
         //start
         Iamport.INSTANCE.init(this);
 
@@ -64,7 +69,7 @@ public class Payment extends AppCompatActivity {
         Gson gson = new Gson();
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("userId", userId);
-        jsonObject.addProperty("cafeId", 1);
+        jsonObject.addProperty("cafeId", cafeId);
         jsonObject.addProperty("order_list", "[1,3]");
         jsonObject.addProperty("memo", "아이스 아메리카노 얼음은 넣어주지 마세요~");
         String jsonStr = gson.toJson(jsonObject);

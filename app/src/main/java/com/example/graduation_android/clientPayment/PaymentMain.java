@@ -59,6 +59,7 @@ public class PaymentMain extends AppCompatActivity {
 
         service = retrofit.create(clientPaymentAPI.class); // retrofit 관련 인터페이스를 class로 지정.
         getPayment(userId);
+
     }
 
     private void getPayment(int userId) {

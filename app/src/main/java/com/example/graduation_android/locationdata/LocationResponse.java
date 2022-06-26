@@ -23,6 +23,9 @@ public class LocationResponse {
 }
 
 class Cafe {
+    @SerializedName("id")
+    public int id;
+
     @SerializedName("cafe_info")
     public String cafe_info;
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+    private final String TAG = "RecyclerViewAdapter";
+
     private Context mContext;
     private ArrayList<RecyclerViewItem> mList;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView cafeImgItem;
-        TextView cafeNameItem, cafeEmptySeatItem;
+        TextView cafeIdItem, cafeNameItem, cafeEmptySeatItem;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -33,6 +36,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     int pos = getAdapterPosition();
 
                     Intent intent = new Intent(context, CafeDetail.class);
+                    intent.putExtra("cafeId", mList.get(pos).getCafeId());
+                    Log.d(TAG, "sent id: "+mList.get(pos).getCafeId());
                     intent.putExtra("cafeName", mList.get(pos).getCafeName());
                     intent.putExtra("emptySeat", mList.get(pos).getEmptyseat());
 
@@ -42,6 +47,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             cafeImgItem = (ImageView) itemView.findViewById(R.id.img_item);
             cafeImgItem.setClipToOutline(true); //둥근 테두리
+            cafeIdItem = (TextView) itemView.findViewById(R.id.cafe_id_item);
             cafeNameItem = (TextView) itemView.findViewById(R.id.cafe_name_item);
             cafeEmptySeatItem = (TextView) itemView.findViewById(R.id.cafe_empty_seat);
         }
@@ -70,6 +76,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         RecyclerViewItem item = mList.get(position);
 
         holder.cafeImgItem.setImageResource(R.drawable.cafe_sample);
+//        holder.cafeIdItem.setText(item.getCafeId());
         holder.cafeNameItem.setText(item.getCafeName());
         holder.cafeEmptySeatItem.setText(item.getEmptyseat());
     }
@@ -78,6 +85,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public int getItemCount() {
         return mList.size();
     }
-
 
 }
