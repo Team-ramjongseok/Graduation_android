@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#BBF4F1"
+    android:background="@drawable/menu_list_bg"
+    android:layout_marginVertical="10dp"
+    android:layout_marginHorizontal="5dp"
     >
 
 
