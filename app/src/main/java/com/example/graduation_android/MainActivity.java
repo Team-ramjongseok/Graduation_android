@@ -298,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
         paymentManage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "이용 내역",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "이용 내역",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), PaymentMain.class);
                 startActivity(intent);
             }

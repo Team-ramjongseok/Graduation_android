@@ -170,6 +170,16 @@
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/button_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="logout"
+            android:layout_gravity="right"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            />
+
     </LinearLayout>
 
 </com.google.android.material.navigation.NavigationView>

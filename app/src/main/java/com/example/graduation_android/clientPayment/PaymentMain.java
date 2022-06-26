@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.graduation_android.Constants;
@@ -41,6 +42,9 @@ public class PaymentMain extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment_main);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         /* 초기화 영역 */
         listView = findViewById(R.id.paymentList);
@@ -84,7 +88,7 @@ public class PaymentMain extends AppCompatActivity {
                             listView.setAdapter(myAdapter);
                         }
     //                listView.setAdapter(myAdapter);
-                        Toast.makeText(PaymentMain.this, "안뇽?" + paymentArrayList.get(0).getLocation(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(PaymentMain.this, "안뇽?" + paymentArrayList.get(0).getLocation(), Toast.LENGTH_SHORT).show();
 
                 }
 
