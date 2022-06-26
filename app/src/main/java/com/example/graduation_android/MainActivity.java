@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
         /* retrofit2 */
         retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.URL_LOCAL.toString())
+                .baseUrl(Constants.URL.toString())
                 .addConverterFactory(GsonConverterFactory.create()) //json 분석하기 위해 추가
                 .build();
         service = retrofit.create(LocationServiceApi.class);
