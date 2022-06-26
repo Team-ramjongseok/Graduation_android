@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
         btnLogin = findViewById(R.id.goto_login);
         btnLocation = findViewById(R.id.goto_location);
-        //btnPayment = findViewById(R.id.goto_payment);
         userProfile = findViewById(R.id.main_user_nickname);
         showMore = findViewById(R.id.main_show_more);
         btnLogout = findViewById(R.id.button_logout);
@@ -145,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
         /* retrofit2 */
         retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.URL.toString())
+                .baseUrl(Constants.URL_LOCAL.toString())
                 .addConverterFactory(GsonConverterFactory.create()) //json 분석하기 위해 추가
                 .build();
         service = retrofit.create(LocationServiceApi.class);
@@ -222,10 +221,12 @@ public class MainActivity extends AppCompatActivity {
                         StringBuffer coord = new StringBuffer();
                         coord.append(currentLng+","+currentLat);
                         requestGeocode(); // reverse geocoding start
-                        refreshMain();
                     }
                 }).start();
 
+                mRecyclerViewAdapter.notifyDataSetChanged();
+                mRecyclerView.setAdapter(mRecyclerViewAdapter);
+                refreshMain();
 
                 sendLocation(new LocationData(currentLat, currentLng,nickName));
 
@@ -282,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
         //위치 정보가 저장 되어있을 경우 위치 표시
         String curLocation = prefLocation.getString("userLocation", "");
         if(curLocation!="") { //위치 정보가 존재할 경우
-            clearLocation.setVisibility(View.VISIBLE);
+//            clearLocation.setVisibility(View.VISIBLE);
 
             currentLocation.setText(curLocation);
             btnLocation.setClickable(false);
@@ -309,10 +310,11 @@ public class MainActivity extends AppCompatActivity {
             mRecyclerView.setVisibility(View.VISIBLE);
             cafeListEmptyText.setVisibility(View.GONE);
             for(int i=0; i<5; i++) {
+                int tempCafeId = prefLocation.getInt("id"+i, -1);
                 String tempCafeName = prefLocation.getString("cafe"+i, "");
                 String tempEmptySeat = prefLocation.getString("seat"+i, "");
                 String tempEmptySeatFiltered = tempEmptySeat.replaceAll("[^1-9]", "");
-                addItem(tempCafeName, "빈자리 "+tempEmptySeatFiltered);
+                addItem(tempCafeId, tempCafeName, "빈자리 "+tempEmptySeatFiltered);
             }
         }
         else {
@@ -333,9 +335,10 @@ public class MainActivity extends AppCompatActivity {
         mList = new ArrayList<>();
     }
 
-    public void addItem(String cafeName, String emptySeat) {
+    public void addItem(int cafeId, String cafeName, String emptySeat) {
         RecyclerViewItem item = new RecyclerViewItem();
 
+        item.setCafeId(cafeId);
         item.setCafeName(cafeName);
         item.setEmptyseat(emptySeat);
 
@@ -453,8 +456,6 @@ public class MainActivity extends AppCompatActivity {
             /* save user location with sharedPreferences */
             editor.putString("userLocation", currentUserRegion);
             editor.commit();
-
-
 
         }catch (Exception e) {
             e.printStackTrace();

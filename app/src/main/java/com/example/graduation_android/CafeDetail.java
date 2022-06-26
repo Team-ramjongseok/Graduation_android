@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -49,6 +50,7 @@ public class CafeDetail extends AppCompatActivity {
     private CafeMenuApi service;
     private SharedPreferences preferences;
 
+    int menuListSize=0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,23 +77,45 @@ public class CafeDetail extends AppCompatActivity {
                 .build();
         service = retrofit.create(CafeMenuApi.class);
 
-
-
-        gotoPayment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Payment.class);
-                startActivity(intent);
-            }
-        });
-
         Intent receivedIntent = getIntent();
+        int tempCafeId = receivedIntent.getIntExtra("cafeId", -1);
         cafeName.setText(receivedIntent.getStringExtra("cafeName"));
         cafeSeat.setText(receivedIntent.getStringExtra("emptySeat"));
 
         int cafeId=1;
         getMenus(cafeId);
 
+
+        /*
+        주문하기 버튼을 누를 경우 payment에게 전달해야 할 정보들
+        카페 id
+        선택된 메뉴들의 id 값들
+        총 가격의 합
+         */
+        gotoPayment.setOnClickListener(new View.OnClickListener() {
+            int idx=0;
+            @Override
+            public void onClick(View view) {
+
+//                SparseBooleanArray checkedItems = listView.getCheckedItemPositions();
+//                int countMenus = menuListAdapter.getCount(); //선택된 메뉴의 개수 세기
+//
+//                if(checkedItems.size() != 0) {
+//                    for(int i=countMenus-1; i>=0; i--) {
+//                        if(checkedItems.get(i)) {
+//                            Log.d(TAG, "selected menus: "+String.valueOf(checkedItems.get(i)));
+//                        }
+//
+                        Intent intent = new Intent(getApplicationContext(), Payment.class);
+                        intent.putExtra("cafeId", tempCafeId);
+                        startActivity(intent);
+//                    }
+//                }
+//                else {
+//                    Toast.makeText(CafeDetail.this, "메뉴를 선택해주세요.", Toast.LENGTH_SHORT).show();
+//                }
+            }
+        });
     }
 
     /* 서버로부터 메뉴 가져오기 */
@@ -103,8 +127,9 @@ public class CafeDetail extends AppCompatActivity {
                     List<CafeMenuResponse> menuList = response.body();
 
                     Log.d(TAG, "test receive: "+menuList);
-
                     Toast.makeText(getApplicationContext(), "메뉴 가져오기 성공", Toast.LENGTH_SHORT).show();
+
+                    menuListSize = menuList.size();
 
                     if(menuList.size()==0) {
                         Log.d(TAG, "result is empty");
@@ -115,7 +140,6 @@ public class CafeDetail extends AppCompatActivity {
                         String receivedMenuName = item.getName();
                         int receivedPrice = item.getPrice();
 
-                        menuListAdapter.addItem(new MenuItem(receivedMenuName, receivedPrice));
                         menuListAdapter.addItem(new MenuItem(receivedMenuName, receivedPrice));
                         listView.setAdapter(menuListAdapter);
                     }

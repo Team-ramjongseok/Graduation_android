@@ -30,6 +30,19 @@
             android:textSize="20dp"
             android:textColor="@color/black"/>
 
+<!--        <CheckedTextView-->
+<!--            android:id="@+id/list_menu_name"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="menu 1"-->
+<!--            android:textSize="20dp"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:paddingLeft="10dp"-->
+<!--            android:checkMark="?android:attr/listChoiceIndicatorMultiple">-->
+
+<!--        </CheckedTextView>-->
+
         <CheckBox
             android:id="@+id/list_checkbox"
             android:layout_width="wrap_content"
